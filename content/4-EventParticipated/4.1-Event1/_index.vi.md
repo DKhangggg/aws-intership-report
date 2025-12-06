@@ -5,117 +5,93 @@ chapter: false
 pre: " <b> 4.1. </b> "
 ---
 
+# BÁO CÁO CHUYÊN SÂU: AWS CLOUD DAY VIETNAM 2025
+## CHỦ ĐỀ: KỶ NGUYÊN CỦA GENAI VÀ HIỆN ĐẠI HÓA ỨNG DỤNG TOÀN DIỆN
 
-# Bài thu hoạch “GenAI-powered App-DB Modernization workshop”
+### 1. Tổng Quan Điều Hành
 
-### Mục Đích Của Sự Kiện
+Sự kiện AWS Cloud Day Vietnam 2025 (tổ chức ngày 18/09/2025 tại Hà Nội) với chủ đề trọng tâm "AI Edition" đã khẳng định sự hội tụ tất yếu giữa hạ tầng điện toán đám mây và Trí tuệ nhân tạo tạo sinh (GenAI).
 
-- Chia sẻ best practices trong thiết kế ứng dụng hiện đại
-- Giới thiệu phương pháp DDD và event-driven architecture
-- Hướng dẫn lựa chọn compute services phù hợp
-- Giới thiệu công cụ AI hỗ trợ development lifecycle
+Báo cáo này tập trung phân tích sâu vào **Chuyên đề Di cư và Hiện đại hóa (Migration & Modernization Track)**. Đây là nơi các chiến lược vĩ mô được cụ thể hóa bằng những bài học thực chiến từ các "ông lớn" trong ngành Tài chính, Ngân hàng và Công nghệ. Thông điệp xuyên suốt không chỉ dừng lại ở việc "lên mây", mà là hành trình tái cấu trúc để bứt phá về tốc độ đổi mới sáng tạo.
 
-### Danh Sách Diễn Giả
+### 2. Phân Tích Các Phiên Trọng Điểm & Diễn Giả
 
-- **Jignesh Shah** - Director, Open Source Databases
-- **Erica Liu** - Sr. GTM Specialist, AppMod
-- **Fabrianne Effendi** - Assc. Specialist SA, Serverless Amazon Web Services
+Dưới đây là tổng hợp chi tiết 5 phiên thảo luận cốt lõi, tập trung vào những insight đắt giá nhất từ các chuyên gia hàng đầu.
 
-### Nội Dung Nổi Bật
+#### 2.1. Hoàn tất Di cư và Hiện đại hóa Quy mô lớn
 
-#### Đưa ra các ảnh hưởng tiêu cực của kiến trúc ứng dụng cũ
+**Diễn giả:**
+- Anh Nguyễn Văn Hải - Director of Software Engineering, Techcombank
+- Anh Sơn Đỗ - Technical Account Manager, AWS
 
-- Thời gian release sản phẩm lâu → Mất doanh thu/bỏ lỡ cơ hội
-- Hoạt động kém hiệu quả → Mất năng suất, tốn kém chi phí
-- Không tuân thủ các quy định về bảo mật → Mất an ninh, uy tín
+**Nội dung & Bài học chiến lược:**
 
-#### Chuyển đổi sang kiến trúc ứng dụng mới - Microservice Architecture
+Phiên mở màn mang đến góc nhìn thực tế về hành trình chuyển dịch những khối lượng công việc (workloads) khổng lồ từ on-premises lên AWS.
 
-Chuyển đổi thành hệ thống modular – từng chức năng là một **dịch vụ độc lập** giao tiếp với nhau qua **sự kiện** với 3 trụ cột cốt lõi:
+**Tư duy "Modernize-While-Migrate":** Techcombank chia sẻ mô hình tư duy không chờ đợi di chuyển xong mới hiện đại hóa, mà thực hiện song hành. Điều này giúp rút ngắn thời gian time-to-market.
 
-- **Queue Management**: Xử lý tác vụ bất đồng bộ
-- **Caching Strategy:** Tối ưu performance
-- **Message Handling:** Giao tiếp linh hoạt giữa services
+**Bài học thực tiễn:** Diễn giả nhấn mạnh tầm quan trọng của việc xây dựng một nền tảng (foundation) vững chắc ngay từ đầu và lộ trình chiến lược rõ ràng để tránh "bẫy" chi phí và kỹ thuật khi scale hệ thống.
 
-#### Domain-Driven Design (DDD)
+#### 2.2. Hiện đại hóa Ứng dụng với Amazon Q Developer
 
-- **Phương pháp 4 bước**: Xác định domain events → sắp xếp timeline → identify actors → xác định bounded contexts
-- **Case study bookstore**: Minh họa cách áp dụng DDD thực tế
-- **Context mapping**: 7 patterns tích hợp bounded contexts
+**Diễn giả:**
+- Anh Phúc Nguyễn - Solutions Architect, AWS
+- Anh Alex Trần - AI Director, OCB (Ngân hàng Phương Đông)
 
-#### Event-Driven Architecture
+**Nội dung & Bài học chiến lược:**
 
-- **3 patterns tích hợp**: Publish/Subscribe, Point-to-point, Streaming
-- **Lợi ích**: Loose coupling, scalability, resilience
-- **So sánh sync vs async**: Hiểu rõ trade-offs (sự đánh đổi)
+Một trong những phiên ấn tượng nhất về ứng dụng GenAI vào quy trình phát triển phần mềm (SDLC).
 
-#### Compute Evolution
+**Amazon Q Developer:** Demo trực quan về cách công cụ này đóng vai trò như một trợ lý lập trình thông minh.
 
-- **Shared Responsibility Model**: Từ EC2 → ECS → Fargate → Lambda
-- **Serverless benefits**: No server management, auto-scaling, pay-for-value
-- **Functions vs Containers**: Criteria lựa chọn phù hợp
+**Tăng tốc & Chất lượng:** OCB đã chứng minh việc sử dụng Amazon Q giúp tự động hóa các tác vụ tốn thời gian như: viết tài liệu kỹ thuật (documentation), tạo unit tests, và rà soát lỗ hổng bảo mật. Điều này cho phép đội ngũ kỹ sư tập trung vào logic nghiệp vụ phức tạp hơn.
 
-#### Amazon Q Developer
+#### 2.3. Panel Discussion: Động lực Tăng tốc Chuyển đổi Số
 
-- **SDLC automation**: Từ planning đến maintenance
-- **Code transformation**: Java upgrade, .NET modernization
-- **AWS Transform agents**: VMware, Mainframe, .NET migration
+**Điều phối:** Anh Hùng Nguyễn Gia (AWS)
 
-### Những Gì Học Được
+**Panelists:** Các chuyên gia từ OCB, LPBank Securities, và Ninety Eight
 
-#### Tư Duy Thiết Kế
+**Nội dung & Bài học chiến lược:**
 
-- **Business-first approach**: Luôn bắt đầu từ business domain, không phải technology
-- **Ubiquitous language**: Importance của common vocabulary giữa business và tech teams
-- **Bounded contexts**: Cách identify và manage complexity trong large systems
+Phiên thảo luận đa chiều giữa các đại diện từ Ngân hàng, Chứng khoán và Blockchain.
 
-#### Kiến Trúc Kỹ Thuật
+**Bài toán Đổi mới:** Các diễn giả đồng thuận rằng hiện đại hóa ứng dụng là "chìa khóa" để giải quyết các bài toán nghiệp vụ đặc thù: từ xử lý giao dịch chứng khoán thời gian thực (Real-time processing) đến mở rộng quy mô toàn cầu cho Web3.
 
-- **Event storming technique**: Phương pháp thực tế để mô hình hóa quy trình kinh doanh
-- Sử dụng **Event-driven communication** thay vì synchronous calls
-- **Integration patterns**: Hiểu khi nào dùng sync, async, pub/sub, streaming
-- **Compute spectrum**: Criteria chọn từ VM → containers → serverless
+**Thích ứng linh hoạt:** Chia sẻ về cách xây dựng văn hóa công nghệ linh hoạt, sẵn sàng thử nghiệm và sai sửa nhanh (fail-fast) nhờ hạ tầng Cloud.
 
-#### Chiến Lược Hiện Đại Hóa
+#### 2.4. Chuyển đổi VMware & Lộ trình Hiện đại hóa
 
-- **Phased approach**: Không rush, phải có roadmap rõ ràng
-- **7Rs framework**: Nhiều con đường khác nhau tùy thuộc vào đặc điểm của mỗi ứng dụng
-- **ROI measurement**: Cost reduction + business agility
+**Diễn giả:**
+- Anh Hùng Hoàng - Customer Solutions Manager, AWS
 
-### Ứng Dụng Vào Công Việc
+**Nội dung & Bài học chiến lược:**
 
-- **Áp dụng DDD** cho project hiện tại: Event storming sessions với business team
-- **Refactor microservices**: Sử dụng bounded contexts để identify service boundaries
-- **Implement event-driven patterns**: Thay thế một số sync calls bằng async messaging
-- **Serverless adoption**: Pilot AWS Lambda cho một số use cases phù hợp
-- **Try Amazon Q Developer**: Integrate vào development workflow để boost productivity
+Dành cho các doanh nghiệp đang vận hành hệ thống VMware lớn muốn chuyển đổi.
 
-### Trải nghiệm trong event
+**Lộ trình an toàn:** Cung cấp "playbook" chi tiết để di chuyển VMware lên AWS một cách nhanh chóng, tối ưu chi phí và giảm thiểu rủi ro downtime.
 
-Tham gia workshop **“GenAI-powered App-DB Modernization”** là một trải nghiệm rất bổ ích, giúp tôi có cái nhìn toàn diện về cách hiện đại hóa ứng dụng và cơ sở dữ liệu bằng các phương pháp và công cụ hiện đại. Một số trải nghiệm nổi bật:
+**Đích đến hiện đại:** Sau khi di chuyển (Rehost), lộ trình tiếp theo là tái cấu trúc (Refactor) sang các dịch vụ Cloud-native như Amazon EKS (Kubernetes), Amazon RDS (Managed DB), và kiến trúc Serverless để đạt hiệu suất tối đa.
 
-#### Học hỏi từ các diễn giả có chuyên môn cao
-- Các diễn giả đến từ AWS và các tổ chức công nghệ lớn đã chia sẻ **best practices** trong thiết kế ứng dụng hiện đại.
-- Qua các case study thực tế, tôi hiểu rõ hơn cách áp dụng **Domain-Driven Design (DDD)** và **Event-Driven Architecture** vào các project lớn.
+#### 2.5. Bảo mật AWS ở Quy mô lớn (Security at Scale)
 
-#### Trải nghiệm kỹ thuật thực tế
-- Tham gia các phiên trình bày về **event storming** giúp tôi hình dung cách **mô hình hóa quy trình kinh doanh** thành các domain events.
-- Học cách **phân tách microservices** và xác định **bounded contexts** để quản lý sự phức tạp của hệ thống lớn.
-- Hiểu rõ trade-offs giữa **synchronous và asynchronous communication** cũng như các pattern tích hợp như **pub/sub, point-to-point, streaming**.
+**Diễn giả:**
+- Anh Taiki Đặng - Solutions Architect, AWS
 
-#### Ứng dụng công cụ hiện đại
-- Trực tiếp tìm hiểu về **Amazon Q Developer**, công cụ AI hỗ trợ SDLC từ lập kế hoạch đến maintenance.
-- Học cách **tự động hóa code transformation** và pilot serverless với **AWS Lambda**, từ đó nâng cao năng suất phát triển.
+**Nội dung & Bài học chiến lược:**
 
-#### Kết nối và trao đổi
-- Workshop tạo cơ hội trao đổi trực tiếp với các chuyên gia, đồng nghiệp và team business, giúp **nâng cao ngôn ngữ chung (ubiquitous language)** giữa business và tech.
-- Qua các ví dụ thực tế, tôi nhận ra tầm quan trọng của **business-first approach**, luôn bắt đầu từ nhu cầu kinh doanh thay vì chỉ tập trung vào công nghệ.
+Bảo mật không còn là nút thắt cổ chai mà trở thành động lực cho sự vận hành trơn tru.
 
-#### Bài học rút ra
-- Việc áp dụng DDD và event-driven patterns giúp giảm **coupling**, tăng **scalability** và **resilience** cho hệ thống.
-- Chiến lược hiện đại hóa cần **phased approach** và đo lường **ROI**, không nên vội vàng chuyển đổi toàn bộ hệ thống.
-- Các công cụ AI như Amazon Q Developer có thể **boost productivity** nếu được tích hợp vào workflow phát triển hiện tại.
+**GenAI trong SecOps:** Điểm nhấn của phiên là việc tích hợp GenAI vào quy trình vận hành an ninh. AI giúp phân tích log, phát hiện bất thường và tự động hóa phản ứng sự cố nhanh hơn con người rất nhiều.
 
-#### Một số hình ảnh khi tham gia sự kiện
-* Thêm các hình ảnh của các bạn tại đây
-> Tổng thể, sự kiện không chỉ cung cấp kiến thức kỹ thuật mà còn giúp tôi thay đổi cách tư duy về thiết kế ứng dụng, hiện đại hóa hệ thống và phối hợp hiệu quả hơn giữa các team.
+**Security-by-Design:** Tư duy tích hợp bảo mật ngay từ khâu thiết kế kiến trúc và viết code, thay vì chỉ rà soát ở khâu cuối cùng.
+
+### 3. Tổng Kết & Định Hướng Áp Dụng
+
+Qua các phiên chia sẻ tại AWS Cloud Day 2025, có 3 định hướng chính dành cho kỹ sư phần mềm và doanh nghiệp trong thời gian tới:
+
+**AI-Driven Development:** Việc thành thạo các công cụ như Amazon Q Developer không còn là lựa chọn mà là yêu cầu bắt buộc để tối ưu năng suất (Productivity).
+
+**Continuous Modernization:** Hiện đại hóa là một hành trình liên tục. Việc chuyển dịch từ Monolith sang Microservices, Containers (EKS) và Serverless là xu hướng tất yếu để đảm bảo tính linh hoạt (Agility).
+
+**Data & Security First:** Dữ liệu và bảo mật phải được đặt làm trọng tâm trong mọi kiến trúc hệ thống, với sự hỗ trợ đắc lực từ các mô hình AI tiên tiến.
