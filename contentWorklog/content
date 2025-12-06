@@ -1,0 +1,710 @@
+
+Báo Cáo Nghiên Cứu Chuyên Sâu: Nhật Ký Triển Khai và Lộ Trình Năng Lực Điện Toán Đám Mây (First Cloud Journey)
+
+
+Tóm Tắt Điều Hành
+
+Báo cáo này cung cấp một bản phân tích kỹ thuật toàn diện và nhật ký công việc chi tiết (worklog) cho chương trình "First Cloud Journey". Được thiết kế như một lộ trình phát triển năng lực kéo dài ba tháng, từ ngày 1 tháng 9 năm 2025 đến cuối tháng 11 năm 2025, báo cáo này mô phỏng quá trình chuyển đổi của một kiến trúc sư hệ thống từ các khái niệm cơ bản về đám mây sang việc triển khai các kiến trúc hiện đại, phức tạp trên Amazon Web Services (AWS).
+Dựa trên dữ liệu từ các mô-đun đào tạo của chương trình 1, báo cáo đi sâu vào các khía cạnh kỹ thuật của từng dịch vụ, từ Explore AWS Services, Migrate, Optimize, Modernize, đến Data & Analytics và AI/ML. Báo cáo loại bỏ các nội dung "Coming Soon" để tập trung vào các năng lực thực thi ngay lập tức. Cấu trúc của tài liệu được trình bày dưới dạng nhật ký kỹ thuật hàng ngày, kết hợp lý thuyết kiến trúc với thực hành triển khai, đồng thời cung cấp các phân tích chuyên sâu về lý do tại sao (Why) và làm thế nào (How) các dịch vụ này tương tác để tạo nên các giải pháp cấp doanh nghiệp.
+
+Phần 1: Xây Dựng Nền Tảng Hạ Tầng Số (Tháng 9/2025)
+
+Tháng đầu tiên tập trung vào việc thiết lập "Landing Zone" an toàn và hiểu rõ các khối xây dựng cơ bản của đám mây: Định danh, Mạng, Điện toán và Lưu trữ. Đây là giai đoạn quan trọng nhất, vì các lỗi cấu hình trong giai đoạn này thường dẫn đến các lỗ hổng bảo mật và nợ kỹ thuật khó khắc phục sau này.
+
+Tuần 1: Quản trị Định danh và Kiến trúc Mạng (01/09 – 07/09)
+
+Mục tiêu: Thiết lập tài khoản AWS chuẩn doanh nghiệp và xây dựng mạng đám mây ảo (VPC) bảo mật.
+
+Ngày 1 (01/09): Khởi tạo Tài khoản và Quản lý Chi phí
+
+Hoạt động Kỹ thuật:
+Khởi tạo AWS Account: Bắt đầu hành trình bằng việc tạo tài khoản AWS mới.1 Trọng tâm không chỉ là đăng ký, mà là quy trình bảo mật tài khoản gốc (Root User). Việc kích hoạt xác thực đa yếu tố (MFA) cho tài khoản gốc là bước bắt buộc đầu tiên để ngăn chặn rủi ro chiếm quyền điều khiển toàn bộ hạ tầng.
+Thiết lập Ngân sách (AWS Budgets): Để đảm bảo kiểm soát tài chính ngay từ ngày đầu, hệ thống AWS Budgets được cấu hình.1
+Cấu hình: Thiết lập ngân sách chi phí hàng tháng (Cost Budget) và ngân sách sử dụng (Usage Budget).
+Cảnh báo: Cấu hình Amazon SNS để gửi email cảnh báo khi chi phí thực tế hoặc dự báo vượt quá 80% ngưỡng ngân sách. Điều này thể hiện tư duy "FinOps" ngay từ giai đoạn khởi tạo.
+Cơ chế Hỗ trợ (AWS Support): Nghiên cứu các gói hỗ trợ (Basic, Developer, Business) và quy trình mở ticket hỗ trợ kỹ thuật.4 Việc hiểu rõ SLA (Service Level Agreement) của từng gói giúp định hình chiến lược vận hành sau này.
+
+Ngày 2 (02/09): Quản lý Định danh và Truy cập (IAM) - Phần 1
+
+Hoạt động Kỹ thuật:
+Nguyên tắc Đặc quyền Tối thiểu: Đi sâu vào dịch vụ IAM.1 Thay vì sử dụng tài khoản Root, việc tạo tài khoản IAM User cho quản trị viên được thực hiện.
+Nhóm và Chính sách (Groups & Policies): Tạo các nhóm người dùng phân cấp: Admins, Developers, và Auditors.
+Phân tích: Việc gán quyền (Policy) vào Nhóm thay vì từng User riêng lẻ giúp đơn giản hóa việc quản trị khi quy mô nhân sự tăng lên. Sử dụng các Managed Policies như AdministratorAccess cho nhóm Admin và PowerUserAccess cho nhóm Dev.
+Chính sách Mật khẩu: Thiết lập Account Password Policy yêu cầu độ phức tạp, độ dài tối thiểu và chu kỳ xoay vòng mật khẩu, tuân thủ các tiêu chuẩn bảo mật CIS Benchmark.
+
+Ngày 3 (03/09): Quản lý Định danh và Truy cập (IAM) - Phần 2
+
+Hoạt động Kỹ thuật:
+IAM Roles và Instance Profiles: Chuyển trọng tâm sang bảo mật cho ứng dụng.1
+Triển khai: Tạo IAM Role cho phép EC2 instance truy cập S3. Đây là một mô hình kiến trúc quan trọng: thay vì lưu trữ Access Key/Secret Key cứng trong mã nguồn (hard-coded credentials) - một rủi ro bảo mật lớn, EC2 instance sẽ nhận thông tin xác thực tạm thời thông qua Instance Metadata Service (IMDS).
+Viết Policy Tùy chỉnh (JSON): Thực hành viết các chính sách JSON để giới hạn quyền truy cập ở mức độ hạt nhân (granular). Ví dụ: Chỉ cho phép truy cập vào một Bucket S3 cụ thể trong một khung giờ cụ thể.
+
+Ngày 4 (04/09): Kiến trúc Mạng Ảo (VPC) - Lý thuyết & Thiết kế
+
+Hoạt động Kỹ thuật:
+Tổng quan VPC: Nghiên cứu Networking Essentials with Amazon VPC.1 Phân biệt giữa Default VPC và Custom VPC.
+Quy hoạch IP (CIDR): Thiết kế không gian địa chỉ mạng. Quyết định sử dụng dải 10.0.0.0/16 để cung cấp 65,536 địa chỉ IP, cho phép khả năng mở rộng lớn.
+Phân chia Subnet: Thiết kế mô hình Multi-AZ (Đa vùng sẵn sàng) để đảm bảo tính sẵn sàng cao (High Availability).
+Public Subnets: Dành cho các tài nguyên cần truy cập internet trực tiếp (Load Balancer, Bastion Host).
+Private Subnets: Dành cho các tài nguyên nội bộ (Database, Application Server) để cách ly khỏi internet công cộng.
+
+Ngày 5 (05/09): Triển khai VPC Thực tế
+
+Hoạt động Kỹ thuật:
+Tạo Hạ tầng Mạng: Sử dụng AWS Console để tạo VPC, Subnets, và Internet Gateway (IGW).4
+Bảng Định tuyến (Route Tables): Cấu hình Route Table cho Public Subnet trỏ tới IGW (0.0.0.0/0 -> IGW). Tạo Route Table riêng cho Private Subnet không có đường ra internet trực tiếp.
+NAT Gateway: Để cho phép các instance trong Private Subnet tải bản cập nhật từ internet mà không bị truy cập từ bên ngoài, NAT Gateway được triển khai trong Public Subnet và cấu hình định tuyến tương ứng.
+
+Ngày 6 (06/09): Bảo mật Mạng (Security Groups & NACL)
+
+Hoạt động Kỹ thuật:
+Firewall Ảo: Phân tích sự khác biệt giữa Security Groups (Stateful - có trạng thái) và Network Access Control Lists (Stateless - không trạng thái).
+Cấu hình Security Group: Thiết lập quy tắc "Web-SG" cho phép HTTP (80) và HTTPS (443) từ 0.0.0.0/0, và quy tắc "App-SG" chỉ cho phép traffic từ "Web-SG" trên cổng ứng dụng. Điều này tạo ra một kiến trúc bảo mật nhiều lớp (Defense in Depth).
+Troubleshooting: Thực hành xử lý sự cố kết nối trong Networking on AWS Workshop 1, nhận diện các lỗi phổ biến như quên gán Route Table hoặc quy tắc Security Group quá chặt chẽ.
+
+Ngày 7 (07/09): Tổng kết Tuần 1
+
+Tổng hợp: Hoàn thành việc xây dựng một môi trường mạng biệt lập, an toàn với hệ thống quản lý định danh chặt chẽ. Nền tảng này sẵn sàng cho việc triển khai máy chủ và ứng dụng trong tuần tiếp theo.
+
+Tuần 2: Điện toán và Lưu trữ Cơ bản (08/09 – 14/09)
+
+Mục tiêu: Triển khai máy chủ ảo (EC2), hiểu về các loại hình lưu trữ (EBS, S3) và các mô hình điện toán đơn giản hóa (Lightsail).
+
+Ngày 8 (08/09): Amazon EC2 - Khởi tạo và Kết nối
+
+Hoạt động Kỹ thuật:
+Compute Essentials: Đi sâu vào dịch vụ Amazon EC2.1
+Lựa chọn Instance Type: Phân tích các họ máy chủ: T3 (Burstable) cho web server nhẹ, C5 (Compute Optimized) cho xử lý dữ liệu, và R5 (Memory Optimized) cho cache/database.
+AMI (Amazon Machine Image): Khởi tạo một instance chạy Amazon Linux 2023.
+SSH & Key Pairs: Quản lý Key Pair (.pem cho Mac/Linux, .ppk cho Windows/Putty). Thực hiện kết nối SSH an toàn vào instance nằm trong Public Subnet.
+
+Ngày 9 (09/09): Lưu trữ Khối (EBS) và Windows Workloads
+
+Hoạt động Kỹ thuật:
+EBS Volumes: Tìm hiểu về Elastic Block Store. Tạo thêm một volume EBS (loại gp3) và thực hiện lệnh mount vào Linux instance đang chạy. Điều này minh họa tính chất "bền vững" của EBS tách biệt với vòng đời của EC2.
+Windows Workloads: Triển khai Windows Workloads on AWS.1 Kết nối qua giao thức RDP. Thực hành cài đặt IIS Web Server trên Windows Server 2022.
+Snapshot: Thực hiện tạo Snapshot cho EBS volume để sao lưu dữ liệu, hiểu cơ chế incremental backup (sao lưu gia tăng) của AWS.
+
+Ngày 10 (10/09): Môi trường Phát triển trên Đám mây (Cloud9)
+
+Hoạt động Kỹ thuật:
+AWS Cloud9: Thiết lập môi trường phát triển tích hợp (IDE) trên trình duyệt.1
+Lợi ích: Cloud9 đi kèm với AWS CLI, SAM, và Docker được cài đặt sẵn. Việc này loại bỏ hoàn toàn ma sát trong việc thiết lập môi trường local ("works on my machine" syndrome).
+Truy cập Từ xa: Trải nghiệm khả năng sửa code và chạy terminal trực tiếp từ trình duyệt mà không cần mở port SSH công khai, nhờ vào kết nối được quản lý bởi AWS.
+
+Ngày 11 (11/09): Lưu trữ Đối tượng (Amazon S3) - Cơ bản
+
+Hoạt động Kỹ thuật:
+S3 Fundamentals: Tìm hiểu mô hình lưu trữ đối tượng (Object Storage) của S3.1 Tạo Bucket và upload các file media.
+Static Website Hosting: Cấu hình Bucket để host một website tĩnh (HTML/CSS/JS).1
+Bucket Policy: Viết chính sách JSON để cho phép công chúng (Public) chỉ có quyền s3:GetObject đối với các file trong bucket, trong khi vẫn chặn quyền List hoặc Put từ bên ngoài.
+
+Ngày 12 (12/09): S3 Nâng cao và Bảo mật
+
+Hoạt động Kỹ thuật:
+Storage Classes: Phân tích các lớp lưu trữ: Standard, Intelligent-Tiering, Standard-IA, và Glacier. Thiết lập Lifecycle Policy để tự động chuyển các object cũ hơn 30 ngày sang Glacier để tiết kiệm chi phí.
+S3 Security Best Practices: Thực hành các phương pháp bảo mật tốt nhất.1
+Bật Block Public Access ở mức Account.
+Bật Versioning để bảo vệ chống lại việc xóa nhầm hoặc ghi đè file.
+Kích hoạt Default Encryption (SSE-S3) để mã hóa dữ liệu khi nghỉ (Data at Rest).
+
+Ngày 13 (13/09): Điện toán Đơn giản hóa (Amazon Lightsail)
+
+Hoạt động Kỹ thuật:
+Lightsail Overview: Khám phá Amazon Lightsail 1 như một giải pháp thay thế cho EC2 khi cần sự đơn giản.
+Triển khai WordPress: Sử dụng Blueprint có sẵn của Lightsail để khởi chạy một LAMP stack (Linux, Apache, MySQL, PHP) với WordPress chỉ trong vài cú click chuột.
+So sánh: Lập bảng so sánh chi phí và tính năng giữa EC2 (linh hoạt, phức tạp) và Lightsail (trọn gói, đơn giản) để hiểu rõ use-case của từng dịch vụ.
+
+Ngày 14 (14/09): Container trên Lightsail
+
+Hoạt động Kỹ thuật:
+Lightsail Containers: Mở rộng sang Container Deployment with Amazon Lightsail Containers.1
+Triển khai: Đóng gói một ứng dụng Node.js đơn giản thành Docker Image trên máy local, đẩy lên Lightsail Container Service.
+Đánh giá: Đây là bước đệm nhẹ nhàng để làm quen với container trước khi bước vào thế giới phức tạp của ECS và EKS sau này.
+
+Tuần 3: Cơ sở dữ liệu và Các dịch vụ quản lý (15/09 – 21/09)
+
+Mục tiêu: Chuyển dịch từ việc tự quản lý cơ sở dữ liệu trên EC2 sang sử dụng các dịch vụ Managed Database (RDS, DynamoDB) để giảm tải vận hành.
+
+Ngày 15 (15/09): Cơ sở dữ liệu Quan hệ (Amazon RDS)
+
+Hoạt động Kỹ thuật:
+RDS Essentials: Triển khai Amazon Relational Database Service (RDS).1 Lựa chọn engine MySQL hoặc PostgreSQL.
+Multi-AZ Deployment: Kích hoạt tính năng Multi-AZ để có một bản sao dự phòng (Standby Replica) ở Availability Zone khác.
+Cơ chế: Phân tích cơ chế đồng bộ dữ liệu (Synchronous Replication) giúp đảm bảo tính toàn vẹn dữ liệu khi AZ chính gặp sự cố, hệ thống tự động failover sang AZ phụ mà không cần thay đổi Connection String.
+
+Ngày 16 (16/09): Kết nối và Vận hành RDS
+
+Hoạt động Kỹ thuật:
+Kết nối An toàn: Cấu hình Security Group cho RDS chỉ cho phép kết nối inbound từ Security Group của EC2 Web Server (App-Tier), chặn hoàn toàn truy cập từ internet.
+Parameter Groups: Tùy chỉnh cấu hình DB (như max_connections, time_zone) thông qua Parameter Groups thay vì sửa file my.cnf.
+Backup & Restore: Cấu hình Automated Backups và thực hiện Manual Snapshot. Thử nghiệm quy trình khôi phục (Restore) ra một DB instance mới để kiểm chứng RPO (Recovery Point Objective).
+
+Ngày 17 (17/09): Cơ sở dữ liệu NoSQL (Amazon DynamoDB) - Phần 1
+
+Hoạt động Kỹ thuật:
+NoSQL Essentials: Chuyển sang tư duy phi quan hệ với Amazon DynamoDB.1
+Thiết kế Bảng: Tạo bảng Users với UserId làm Partition Key. Hiểu sự khác biệt cốt lõi giữa SQL (schema cứng) và NoSQL (schema linh hoạt - schemaless).
+Capacity Modes: So sánh chế độ Provisioned (đặt trước RCU/WCU - phù hợp lưu lượng ổn định) và On-Demand (tự động mở rộng - phù hợp lưu lượng khó đoán). Lựa chọn On-Demand cho môi trường development.
+
+Ngày 18 (18/09): DynamoDB Nâng cao - Phần 2
+
+Hoạt động Kỹ thuật:
+Truy vấn Dữ liệu: Thực hành các thao tác API: PutItem, GetItem, Query và Scan.
+Insight: Nhận ra sự kém hiệu quả của lệnh Scan (quét toàn bộ bảng) về mặt chi phí và hiệu năng so với Query (truy vấn dựa trên Key).
+Indexes: Tạo Global Secondary Index (GSI) để hỗ trợ các truy vấn không dựa trên khóa chính (ví dụ: tìm User theo Email thay vì UserId).
+
+Ngày 19 (19/09): Bộ nhớ đệm (Amazon ElastiCache)
+
+Hoạt động Kỹ thuật:
+In-Memory Caching: Triển khai Amazon ElastiCache 1 sử dụng Redis engine.
+Chiến lược Caching: Áp dụng mô hình Lazy Loading (lấy từ cache, nếu miss thì lấy từ DB và ghi vào cache) để giảm tải cho RDS.
+Kiến trúc: Đặt ElastiCache cluster trong Private Subnet để đảm bảo bảo mật và độ trễ thấp nhất khi giao tiếp với ứng dụng.
+
+Ngày 20 (20/09): Kiến trúc Ứng dụng Web Sẵn sàng cao (HA)
+
+Hoạt động Kỹ thuật:
+Tổng hợp: Kết hợp các thành phần đã học để xây dựng Highly Available Web Applications.1
+Mô hình: Web Server (EC2) trong nhiều AZ + Database (RDS Multi-AZ) + Static Content (S3).
+Load Balancing: Triển khai Application Load Balancer (ALB) để phân phối tải traffic HTTP đến các EC2 instances ở các AZ khác nhau, đảm bảo nếu một AZ sập, ứng dụng vẫn hoạt động.
+
+Ngày 21 (21/09): Dịch vụ Thư mục (Directory Services)
+
+Hoạt động Kỹ thuật:
+Microsoft AD: Tìm hiểu AWS Managed Microsoft AD.1
+Use Case: Tích hợp các Windows EC2 instances vào domain để quản lý tập trung thông qua Group Policy Object (GPO), mô phỏng môi trường doanh nghiệp truyền thống chuyển lên mây.
+
+Tuần 4: Khả năng mở rộng, Giám sát và Mạng phân phối (22/09 – 30/09)
+
+Mục tiêu: Tự động hóa khả năng mở rộng hệ thống, thiết lập "mắt thần" giám sát toàn diện và tối ưu hóa việc phân phối nội dung toàn cầu.
+
+Ngày 22 (22/09): Tự động mở rộng (EC2 Auto Scaling)
+
+Hoạt động Kỹ thuật:
+Launch Templates: Tạo mẫu khởi chạy định nghĩa AMI, Instance Type, Security Group và IAM Role.1
+Auto Scaling Group (ASG): Tạo ASG trỏ vào Launch Template, thiết lập Min=2, Max=4, Desired=2.
+Scaling Policies: Cấu hình Target Tracking Scaling Policy để giữ CPU trung bình ở mức 50%.
+Stress Test: Sử dụng công cụ stress trên Linux để đẩy CPU lên 100% và quan sát ASG tự động khởi chạy thêm instance mới (Scale Out) và ALB tự động đăng ký instance đó để nhận traffic.
+
+Ngày 23 (23/09): Giám sát Hệ thống (Amazon CloudWatch)
+
+Hoạt động Kỹ thuật:
+Metrics: Sử dụng Amazon CloudWatch 1 để theo dõi các chỉ số tiêu chuẩn (CPU, Disk I/O, Network).
+Custom Metrics: Cài đặt CloudWatch Agent lên EC2 để đẩy chỉ số bộ nhớ (Memory Usage) - một chỉ số mà Hypervisor không nhìn thấy được.
+Alarms: Tạo Alarm kích hoạt khi CPU > 80% trong 5 phút. Cấu hình Alarm này gửi thông báo qua SNS (Simple Notification Service) tới email quản trị viên.
+
+Ngày 24 (24/09): Giám sát Nâng cao và Log
+
+Hoạt động Kỹ thuật:
+CloudWatch Logs: Cấu hình CloudWatch Agent để đẩy file log ứng dụng (/var/log/httpd/access_log) lên CloudWatch Logs Group.
+CloudWatch Dashboards: Tạo Dashboard tổng hợp hiển thị sức khỏe của toàn bộ hệ thống (Web, DB, Cache) trên một màn hình duy nhất.1
+Grafana: Tìm hiểu khả năng tích hợp Advanced Monitoring with CloudWatch and Grafana 1 để có khả năng trực quan hóa mạnh mẽ hơn.
+
+Ngày 25 (25/09): Hệ thống Tên miền (Amazon Route 53)
+
+Hoạt động Kỹ thuật:
+DNS Management: Quản lý tên miền với Amazon Route 53.1 Tạo Hosted Zone.
+Routing Policies: Thực hành các chiến lược điều hướng:
+Simple Routing: Trỏ tên miền về IP.
+Failover Routing: Cấu hình Health Check. Nếu Primary Web Server chết, DNS tự động trỏ sang trang bảo trì trên S3 (Static Website).
+Latency-based Routing: Điều hướng người dùng đến Region có độ trễ thấp nhất.
+
+Ngày 26 (26/09): Mạng Phân phối Nội dung (Amazon CloudFront)
+
+Hoạt động Kỹ thuật:
+CDN Setup: Triển khai Amazon CloudFront 1 để phân phối nội dung tĩnh từ S3 với độ trễ thấp trên toàn cầu.
+OAC (Origin Access Control): Cấu hình OAC để đảm bảo người dùng chỉ có thể truy cập nội dung qua CloudFront, không thể truy cập trực tiếp vào S3 Bucket.
+Caching Policies: Tùy chỉnh TTL (Time To Live) để kiểm soát thời gian lưu cache tại Edge Location.
+
+Ngày 27 (27/09): Điện toán tại Biên (Edge Computing)
+
+Hoạt động Kỹ thuật:
+Lambda@Edge: Khám phá CloudFront and Lambda@Edge.1
+Use Case: Viết một hàm Lambda đơn giản chạy tại các Edge Location để thay đổi HTTP Header phản hồi hoặc thực hiện chuyển hướng người dùng (A/B testing) mà không cần request đi về server gốc, giúp giảm độ trễ tối đa.
+
+Ngày 28 (28/09): Giao diện Dòng lệnh (AWS CLI)
+
+Hoạt động Kỹ thuật:
+Automation Basics: Chuyển từ Console sang Command Line Operations with AWS CLI.1
+Scripting: Viết script Bash sử dụng AWS CLI để tự động hóa quy trình: "Liệt kê tất cả instance đang chạy -> Stop các instance có tag Env=Dev".
+Filtering: Sử dụng --query và --filter để trích xuất dữ liệu JSON chính xác từ output của CLI, kỹ năng thiết yếu cho việc quản trị hệ thống quy mô lớn.
+
+Ngày 29 (29/09): Mạng Nâng cao (VPC Peering)
+
+Hoạt động Kỹ thuật:
+VPC Peering: Thực hành kết nối hai VPC với nhau thông qua VPC Peering.1
+Route Table Update: Cập nhật bảng định tuyến để traffic giữa hai VPC đi qua kết nối Peering thay vì internet.
+Lưu ý: Hiểu rõ giới hạn của Peering (không có tính chất bắc cầu - Non-transitive peering).
+
+Ngày 30 (30/09): Tổng kết Tháng 9
+
+Đánh giá: Kết thúc tháng đầu tiên, học viên đã có khả năng xây dựng một kiến trúc 3-tier hoàn chỉnh (Web/App/DB), có khả năng tự phục hồi (Auto Scaling), giám sát chặt chẽ (CloudWatch) và tối ưu hóa hiệu năng toàn cầu (CloudFront/Route 53).
+
+Phần 2: Tối Ưu Hóa, Bảo Mật và Vận Hành (Tháng 10/2025)
+
+Tháng thứ hai nâng tầm từ "xây dựng được" sang "vận hành tốt" (Well-Architected). Trọng tâm chuyển sang Bảo mật chuyên sâu, Tự động hóa hạ tầng (IaC), và các chiến lược Di chuyển (Migration) thực tế.
+
+Tuần 5: Tư duy Vận hành và Hạ tầng dưới dạng Mã (01/10 – 07/10)
+
+Mục tiêu: Loại bỏ thao tác thủ công, quản lý hạm đội máy chủ quy mô lớn và mã hóa hạ tầng.
+
+Ngày 1 (01/10): Quản lý Hệ thống (AWS Systems Manager)
+
+Hoạt động Kỹ thuật:
+SSM Agent: Tìm hiểu AWS Systems Manager (SSM).1 Đảm bảo IAM Role của EC2 có quyền AmazonSSMManagedInstanceCore.
+Run Command: Thực hiện lệnh shell trên hàng loạt instance cùng lúc (ví dụ: update Linux packages) mà không cần SSH vào từng máy.
+Inventory: Tự động thu thập thông tin phần mềm cài đặt trên toàn bộ fleet để phục vụ mục đích kiểm toán (Audit).
+
+Ngày 2 (02/10): Truy cập An toàn (Session Manager)
+
+Hoạt động Kỹ thuật:
+No More SSH: Triển khai Remote Server Access with Systems Manager Session Manager.1
+Bảo mật: Đóng cổng 22 (SSH) trên Security Group. Mọi truy cập console vào instance giờ đây đi qua giao thức HTTPS của Session Manager, được xác thực bởi IAM và log lại toàn bộ phiên làm việc vào S3/CloudWatch Logs. Đây là tiêu chuẩn vàng cho bảo mật truy cập máy chủ.
+
+Ngày 3 (03/10): Hạ tầng dưới dạng Mã (CloudFormation)
+
+Hoạt động Kỹ thuật:
+IaC Concept: Bắt đầu với Infrastructure as Code with AWS CloudFormation.1
+Templates: Viết template định dạng YAML để mô tả một VPC và một EC2 instance.
+Stack Management: Thực hiện tạo Stack, cập nhật Stack (Change Sets) và xóa Stack. Hiểu cơ chế quản lý trạng thái và phát hiện sai lệch (Drift Detection) của CloudFormation.
+
+Ngày 4 (04/10): Bộ công cụ phát triển đám mây (AWS CDK) - Cơ bản
+
+Hoạt động Kỹ thuật:
+Imperative IaC: Chuyển sang AWS CDK Essentials.1 Sử dụng ngôn ngữ lập trình quen thuộc (TypeScript hoặc Python) để định nghĩa hạ tầng thay vì YAML/JSON thuần túy.
+Constructs: Tìm hiểu khái niệm Construct (L1, L2, L3). Sử dụng L2 Construct (High-level) để tạo VPC chỉ với một dòng code, thay vì hàng chục dòng trong CloudFormation.
+
+Ngày 5 (05/10): AWS CDK Nâng cao & Workshop
+
+Hoạt động Kỹ thuật:
+Advanced Patterns: Thực hành AWS CDK Advanced.1 Xây dựng các Construct tùy chỉnh để tái sử dụng trong tổ chức (ví dụ: "StandardS3Bucket" luôn bật mã hóa và versioning).
+Workshop: Tham gia Infrastructure as Code Workshop Series 1 để giải quyết các bài toán thực tế như xử lý phụ thuộc vòng (circular dependencies) và quản lý biến môi trường (Context).
+
+Ngày 6 (06/10): Quản lý Tài nguyên và Tagging
+
+Hoạt động Kỹ thuật:
+Tagging Strategy: Triển khai Resource Organization with Tags and Resource Groups.1 Thiết lập chiến lược gắn thẻ nhất quán (ví dụ: CostCenter, Environment, Owner).
+Resource Groups: Tạo các nhóm tài nguyên dựa trên Tag để dễ dàng quản lý và giám sát một tập hợp tài nguyên liên quan (ví dụ: tất cả tài nguyên của dự án "Alpha").
+
+Ngày 7 (07/10): Kiểm soát Truy cập dựa trên Tag
+
+Hoạt động Kỹ thuật:
+ABAC (Attribute-Based Access Control): Tìm hiểu Access Control with IAM and Resource Tags.1
+Policy: Viết IAM Policy cho phép Developer chỉ được phép Start/Stop các instance có tag Env=Dev và Owner=User-Name. Điều này giúp chính sách IAM không cần sửa đổi mỗi khi có instance mới được tạo ra, miễn là tag đúng.
+
+Tuần 6: Kiến trúc Bảo mật Đa lớp (08/10 – 14/10)
+
+Mục tiêu: Xây dựng pháo đài số bảo vệ dữ liệu và ứng dụng trước các mối đe dọa mạng hiện đại.
+
+Ngày 8 (08/10): Tường lửa Ứng dụng Web (AWS WAF)
+
+Hoạt động Kỹ thuật:
+Web ACL: Triển khai Application Protection with AWS WAF.1 Gắn WAF vào Application Load Balancer hoặc CloudFront.
+Rules: Cấu hình các quy tắc để chặn tấn công phổ biến như SQL Injection, Cross-Site Scripting (XSS).
+Rate Limiting: Tạo quy tắc giới hạn tốc độ (Rate-based rule) để chặn các IP gửi quá 100 request/5 phút, giúp giảm thiểu tấn công DDoS tầng ứng dụng.
+
+Ngày 9 (09/10): Quản lý Khóa mã hóa (KMS)
+
+Hoạt động Kỹ thuật:
+Encryption at Rest: Đi sâu vào Encryption with AWS KMS.1
+CMK (Customer Managed Keys): Tạo khóa đối xứng (Symmetric Key) riêng. Cấu hình Key Policy để kiểm soát ai có quyền quản trị khóa và ai có quyền sử dụng khóa để mã hóa/giải mã.
+Tích hợp: Kích hoạt mã hóa EBS Volume và S3 Bucket sử dụng khóa CMK vừa tạo.
+
+Ngày 10 (10/10): Quản lý Bí mật (Secrets Manager)
+
+Hoạt động Kỹ thuật:
+Credential Rotation: Triển khai Credentials Management with AWS Secrets Manager.1
+RDS Integration: Lưu trữ mật khẩu RDS vào Secrets Manager. Cấu hình tính năng tự động xoay vòng mật khẩu (Automatic Rotation) sử dụng Lambda Function có sẵn.
+App Config: Sửa đổi mã nguồn ứng dụng để gọi API lấy mật khẩu từ Secrets Manager thay vì đọc từ file config hay biến môi trường.
+
+Ngày 11 (11/10): Phát hiện Mối đe dọa (GuardDuty)
+
+Hoạt động Kỹ thuật:
+Intelligent Threat Detection: Kích hoạt Threat Detection with AWS GuardDuty.1
+Data Sources: GuardDuty tự động phân tích CloudTrail Events, VPC Flow Logs và DNS Logs sử dụng Machine Learning để phát hiện hành vi bất thường (ví dụ: Instance đào tiền ảo, truy cập từ IP độc hại).
+Response: Cấu hình EventBridge để tự động gửi cảnh báo khi GuardDuty phát hiện mối đe dọa mức độ cao.
+
+Ngày 12 (12/10): Bảo mật Định danh Nâng cao (Cognito)
+
+Hoạt động Kỹ thuật:
+User Pools: Triển khai Cross-Domain Authentication with Amazon Cognito.1 Tạo User Pool để quản lý đăng ký/đăng nhập cho người dùng ứng dụng mobile/web.
+Identity Pools: Cấu hình Identity Pool để trao đổi token xác thực lấy AWS Credentials tạm thời, cho phép người dùng cuối upload file trực tiếp lên S3 mà không cần qua backend server.
+
+Ngày 13 (13/10): Tuân thủ và Quản trị (Security Hub & Config)
+
+Hoạt động Kỹ thuật:
+Security Hub: Kích hoạt Security Compliance with AWS Security Hub 1 để có cái nhìn tổng quan về điểm số bảo mật của tài khoản dựa trên các tiêu chuẩn như CIS AWS Foundations Benchmark.
+Tự động hóa: Quan sát các findings (phát hiện) được tổng hợp từ GuardDuty, Macie và Inspector về một dashboard duy nhất.
+
+Ngày 14 (14/10): Bảo mật Dữ liệu Riêng tư (VPC Endpoints)
+
+Hoạt động Kỹ thuật:
+Private Connectivity: Triển khai Private Access to S3 with VPC Endpoints.1
+Gateway Endpoint: Tạo S3 Gateway Endpoint trong VPC. Cập nhật Route Table của Private Subnet.
+Kết quả: Traffic từ EC2 trong Private Subnet truy cập S3 sẽ đi qua mạng nội bộ của AWS, không đi ra Internet Gateway, tăng cường bảo mật và giảm chi phí Data Transfer Out.
+
+Tuần 7: Chiến lược Di chuyển và Khôi phục Thảm họa (15/10 – 21/10)
+
+Mục tiêu: Chuyển đổi tải công việc từ On-Premise lên AWS và đảm bảo tính liên tục trong kinh doanh.
+
+Ngày 15 (15/10): Di chuyển Máy chủ Ảo (VM Import/Export)
+
+Hoạt động Kỹ thuật:
+Lift & Shift: Thực hành VM Migration with AWS VM Import/Export.2
+Quy trình: Giả lập môi trường On-Prem bằng VirtualBox. Xuất máy ảo ra định dạng .ova hoặc .vmdk. Sử dụng AWS CLI để upload lên S3 và import thành AMI (Amazon Machine Image). Khởi chạy EC2 từ AMI này.
+
+Ngày 16 (16/10): Di chuyển Cơ sở dữ liệu (DMS & SCT) - Phần 1
+
+Hoạt động Kỹ thuật:
+Đánh giá & Chuyển đổi: Sử dụng Schema Conversion Tool (SCT).2
+Kịch bản: Chuyển đổi schema của một database Oracle (Source) sang Amazon Aurora PostgreSQL (Target). SCT tự động chuyển đổi bảng, khóa, và chỉ mục, đồng thời báo cáo các phần code (Stored Procedures) cần sửa thủ công.
+
+Ngày 17 (17/10): Di chuyển Cơ sở dữ liệu (DMS) - Phần 2
+
+Hoạt động Kỹ thuật:
+Data Migration: Cấu hình AWS Database Migration Service (DMS).2
+Replication Instance: Tạo máy chủ trung gian thực hiện việc sao chép.
+Endpoints: Cấu hình Source và Target endpoints.
+Tasks: Tạo tác vụ di chuyển dữ liệu (Full Load) và đồng bộ hóa thay đổi liên tục (Change Data Capture - CDC) để giảm thiểu thời gian downtime khi cắt chuyển hệ thống (Cutover).
+
+Ngày 18 (18/10): Khôi phục Thảm họa (Elastic Disaster Recovery)
+
+Hoạt động Kỹ thuật:
+DR Strategy: Triển khai Disaster Recovery with AWS Elastic Disaster Recovery (DRS).2
+Setup: Cài đặt Agent lên máy chủ nguồn. DRS sẽ liên tục sao chép dữ liệu block-level sang một vùng đệm (Staging Area) trên AWS.
+Drill: Thực hiện diễn tập DR (Recovery Drill) - khởi chạy instance từ dữ liệu sao chép để kiểm tra tính toàn vẹn mà không ảnh hưởng đến luồng sao chép chính.
+
+Ngày 19 (19/10): Sao lưu Dữ liệu Tập trung (AWS Backup)
+
+Hoạt động Kỹ thuật:
+Centralized Backup: Sử dụng Data Protection with AWS Backup.1
+Backup Plan: Tạo kế hoạch sao lưu định kỳ cho EC2, EBS, RDS, và DynamoDB trong cùng một giao diện.
+Cross-Region Copy: Cấu hình tự động sao chép bản backup sang một Region khác để phòng chống thảm họa thiên tai tại Region chính.
+
+Ngày 20 (20/10): Độ tin cậy Nâng cao (SQS & SNS)
+
+Hoạt động Kỹ thuật:
+Decoupling: Tái cấu trúc ứng dụng sử dụng Messaging Systems with SQS and SNS.1
+SQS (Simple Queue Service): Sử dụng hàng đợi để đệm các request khi tải tăng đột biến, giúp backend xử lý theo tốc độ của mình mà không bị quá tải (Throttling).
+SNS (Simple Notification Service): Xây dựng mô hình Fan-out: Một thông báo gửi tới SNS Topic sẽ kích hoạt nhiều SQS Queue khác nhau cho các mục đích xử lý song song (ví dụ: 1 queue để xử lý đơn hàng, 1 queue để gửi email xác nhận).
+
+Ngày 21 (21/10): Lưu trữ Chia sẻ (EBS Multi-Attach & EFS)
+
+Hoạt động Kỹ thuật:
+Shared Block Storage: Thử nghiệm Shared Storage with Amazon EBS Multi-Attach.1 Gắn một volume io2 vào nhiều instance Nitro-based đồng thời (dùng cho các ứng dụng cluster như Linux GFS2).
+Shared File Storage: So sánh với Amazon EFS (Elastic File System) cho nhu cầu chia sẻ file thông thường (NFS) giữa các Linux instances.
+
+Tuần 8: Tối ưu hóa Chi phí và Mạng nâng cao (22/10 – 31/10)
+
+Mục tiêu: Kiểm soát dòng tiền đám mây (FinOps) và kết nối mạng quy mô lớn.
+
+Ngày 22 (22/10): Phân tích Chi phí (Cost Explorer & CUR)
+
+Hoạt động Kỹ thuật:
+Visibility: Sử dụng Cost Visualization and Analytics.1 Phân tích báo cáo chi phí theo Service, Region, và Tag.
+Granularity: Kích hoạt Cost and Usage Report (CUR) để xuất dữ liệu chi tiết từng giờ ra S3.
+Athena Integration: Sử dụng AWS Glue and Amazon Athena 1 để truy vấn file CUR, trả lời các câu hỏi phức tạp như: "Lượng Data Transfer giữa 2 Instance cụ thể tốn bao nhiêu tiền?".
+
+Ngày 23 (23/10): Tối ưu hóa Tài nguyên (Right-Sizing)
+
+Hoạt động Kỹ thuật:
+Compute Optimizer: Sử dụng Right-Sizing with EC2 Resource Optimization.1 Dựa trên dữ liệu lịch sử 14 ngày, AWS gợi ý các instance đang bị over-provisioned (thừa tài nguyên) để giảm size (ví dụ: từ m5.large xuống m5.medium).
+Memory Metrics: Tích hợp CloudWatch Agent để Compute Optimizer có thêm dữ liệu về RAM, giúp gợi ý chính xác hơn.
+
+Ngày 24 (24/10): Mô hình Mua hàng (Savings Plans & RIs)
+
+Hoạt động Kỹ thuật:
+Commitment: Nghiên cứu Cost Savings with Savings Plans and Reserved Instances.1
+Strategy: So sánh EC2 Instance Savings Plans (tiết kiệm cao nhất, kém linh hoạt) và Compute Savings Plans (linh hoạt giữa EC2/Fargate/Lambda). Lập kế hoạch mua cam kết 1 năm cho phần tải nền (Base Load) của hệ thống.
+
+Ngày 25 (25/10): Quản lý Hạn ngạch (Service Quotas)
+
+Hoạt động Kỹ thuật:
+Limits: Kiểm tra Managing Quotas with Service Quotas.1
+Proactive: Thiết lập cảnh báo khi số lượng vCPU hoặc số lượng VPC đạt 80% hạn mức của tài khoản để chủ động gửi yêu cầu tăng hạn mức trước khi việc triển khai bị chặn.
+
+Ngày 26 (26/10): Mạng Nâng cao - Transit Gateway
+
+Hoạt động Kỹ thuật:
+Hub & Spoke: Triển khai Centralized Network Management with AWS Transit Gateway.1
+Problem: Thay thế kiến trúc VPC Peering chằng chịt (Mesh) bằng mô hình tập trung. Kết nối 3 VPC và 1 VPN connection vào Transit Gateway.
+Routing: Cấu hình bảng định tuyến của Transit Gateway để kiểm soát luồng đi giữa các VPC (ví dụ: Dev VPC không được nói chuyện với Prod VPC, nhưng cả 2 đều truy cập được Shared Services VPC).
+
+Ngày 27 (27/10): Giám sát Mạng (VPC Flow Logs)
+
+Hoạt động Kỹ thuật:
+Traffic Analysis: Kích hoạt Network Monitoring with VPC Flow Logs.1
+Debug: Phân tích log để tìm hiểu tại sao kết nối đến Database bị từ chối. Xác định các dòng có trạng thái REJECT để truy ra Security Group hoặc NACL nào đang chặn traffic.
+
+Ngày 28 (28/10): Ủy quyền Thanh toán (Billing Delegation)
+
+Hoạt động Kỹ thuật:
+Billing Access: Cấu hình Billing Console Delegation.1
+Role: Cho phép đội ngũ tài chính (Finance Team) truy cập vào dashboard thanh toán mà không cần quyền Admin truy cập vào tài nguyên kỹ thuật, tuân thủ nguyên tắc phân tách nhiệm vụ (Separation of Duties).
+
+Ngày 29 (29/10): Tối ưu hóa Lưu trữ EBS (EBS Lifecycle)
+
+Hoạt động Kỹ thuật:
+Automation: Sử dụng Amazon EBS Data Lifecycle Manager 1 để tự động hóa việc tạo và xóa Snapshot theo lịch trình (ví dụ: giữ backup 7 ngày gần nhất).
+Anomaly Detection: Tìm hiểu tính năng Anomaly Detection for EBS Backups 1 để phát hiện các bất thường trong quá trình backup có thể là dấu hiệu của ransomware hoặc lỗi hệ thống.
+
+Ngày 30 (30/10): Tổng kết Tháng 10
+
+Đánh giá: Học viên đã đạt đến trình độ vận hành chuyên nghiệp (Ops-ready). Hệ thống không chỉ chạy được mà còn được bảo mật, tối ưu chi phí, và có khả năng phục hồi sau thảm họa. Nền tảng này sẵn sàng cho các ứng dụng hiện đại hóa trong tháng cuối cùng.
+
+Phần 3: Hiện Đại Hóa Ứng Dụng và Dữ Liệu (Tháng 11/2025)
+
+Tháng cuối cùng là bước nhảy vọt về công nghệ: từ máy ảo sang Container, Serverless, và khai phá sức mạnh dữ liệu. Đây là giai đoạn chuyển đổi số thực sự.
+
+Tuần 9: Công nghệ Container (01/11 – 07/11)
+
+Mục tiêu: Làm chủ Docker và các nền tảng điều phối container (Orchestration) hàng đầu của AWS: ECS và EKS.
+
+Ngày 1 (01/11): Docker Fundamentals
+
+Hoạt động Kỹ thuật:
+Containerization: Bắt đầu với Containerization with Docker.1
+Dockerfile: Viết Dockerfile tối ưu (Multi-stage build) để giảm kích thước image.
+ECR: Tạo Repository trên Amazon Elastic Container Registry (ECR). Thực hiện docker push để lưu trữ image private an toàn trên AWS.
+
+Ngày 2 (02/11): Amazon ECS & Fargate
+
+Hoạt động Kỹ thuật:
+Serverless Containers: Triển khai Containerization with Amazon ECS and AWS Fargate.5
+Task Definition: Định nghĩa tài nguyên (CPU/RAM) cho container. Lựa chọn Launch Type là Fargate để không phải quản lý EC2 bên dưới.
+Service: Tạo ECS Service để duy trì số lượng bản sao (replicas) mong muốn và tích hợp với Application Load Balancer.
+
+Ngày 3 (03/11): ECS với Infrastructure as Code (CDK)
+
+Hoạt động Kỹ thuật:
+Automation: Áp dụng Infrastructure as Code for ECS with CDK.5
+Construct: Sử dụng ApplicationLoadBalancedFargateService (L3 Construct) của CDK để triển khai toàn bộ kiến trúc (VPC, ALB, ECS Cluster, Service) chỉ với khoảng 20 dòng code TypeScript.
+
+Ngày 4 (04/11): Amazon EKS (Kubernetes) - Setup
+
+Hoạt động Kỹ thuật:
+K8s on AWS: Nhập môn Getting Started with Amazon EKS.6
+Cluster Creation: Sử dụng công cụ eksctl hoặc CDK EKS Blueprints để khởi tạo Control Plane.
+Node Groups: Cấu hình Managed Node Groups để AWS tự động quản lý việc vá lỗi và nâng cấp cho các worker node EC2.
+
+Ngày 5 (05/11): Triển khai Ứng dụng trên EKS
+
+Hoạt động Kỹ thuật:
+Manifests: Thực hành Deploying Your First Application to Amazon EKS.6 Viết các file YAML K8s tiêu chuẩn (Deployment, Service, Ingress).
+Load Balancing: Cài đặt AWS Load Balancer Controller để EKS có thể tự động tạo ALB khi Ingress resource được khai báo.
+
+Ngày 6 (06/11): CI/CD cho Container
+
+Hoạt động Kỹ thuật:
+Pipeline: Xây dựng CI/CD Pipeline for ECS Applications 5 và CI/CD for EKS Applications.6
+Flow: CodeCommit (Source) -> CodeBuild (Build Image & Push ECR) -> CodeDeploy (Deploy to ECS/EKS). Thực hành chiến lược Blue/Green Deployment để giảm thiểu rủi ro khi cập nhật phiên bản mới.
+
+Ngày 7 (07/11): Red Hat OpenShift trên AWS (ROSA)
+
+Hoạt động Kỹ thuật:
+Managed OpenShift: Tìm hiểu Red Hat OpenShift Service on AWS (ROSA).5
+Use Case: Giải pháp cho các doanh nghiệp đang sử dụng OpenShift on-premise muốn di chuyển lên AWS mà không muốn thay đổi quy trình vận hành.
+
+Tuần 10: Kiến trúc Serverless và Hướng sự kiện (08/11 – 14/11)
+
+Mục tiêu: Xây dựng ứng dụng không máy chủ, tập trung hoàn toàn vào logic nghiệp vụ.
+
+Ngày 8 (08/11): Bộ ba Serverless (Lambda, API Gateway, DynamoDB)
+
+Hoạt động Kỹ thuật:
+Backend Logic: Viết hàm AWS Lambda 3 xử lý logic (ví dụ: CRUD sách).
+Database: Tích hợp Lambda interacting with DynamoDB 3 sử dụng AWS SDK (Boto3/Nodejs SDK).
+API Interface: Xây dựng Serverless - Build Frontend to call API Gateway.3 Tạo REST API, cấu hình Resource và Method, tích hợp Proxy Integration với Lambda.
+
+Ngày 9 (09/11): Xác thực và Bảo mật Serverless
+
+Hoạt động Kỹ thuật:
+Auth: Triển khai Serverless - Authentication with Amazon Cognito.3 Tạo Cognito Authorizer trên API Gateway để chặn các request không có token hợp lệ.
+SSL/Domain: Cấu hình Custom Domains and SSL for Serverless Applications 3 để API có tên miền thân thiện (api.example.com) thay vì endpoint mặc định của AWS.
+
+Ngày 10 (10/11): Kiến trúc Hướng sự kiện (Event-Driven)
+
+Hoạt động Kỹ thuật:
+Async Processing: Thực hành Serverless - Processing orders with SQS and SNS.3
+S3 Triggers: Cấu hình Lambda interacting with S3.3 Khi người dùng upload ảnh lên S3, Lambda tự động kích hoạt để tạo thumbnail, minh họa mô hình event-driven thuần túy.
+
+Ngày 11 (11/11): Điều phối Quy trình (Step Functions)
+
+Hoạt động Kỹ thuật:
+State Machine: Triển khai Workflow Orchestration with AWS Step Functions.3
+Scenario: Xây dựng quy trình phê duyệt đơn hàng: Kiểm tra kho -> Trừ tiền -> Gửi email. Sử dụng Step Functions để quản lý trạng thái, xử lý lỗi (Retry/Catch) và logic rẽ nhánh thay vì viết code phức tạp trong Lambda ("Lambda Pinball" anti-pattern).
+
+Ngày 12 (12/11): GraphQL với AppSync
+
+Hoạt động Kỹ thuật:
+Modern API: Khám phá Serverless - Introduction to AWS AppSync.3
+Real-time: Xây dựng API GraphQL hỗ trợ tính năng Subscription (thời gian thực) qua WebSocket, cho phép ứng dụng chat hoặc bảng điều khiển cập nhật ngay lập tức.
+
+Ngày 13 (13/11): Giám sát Serverless (X-Ray)
+
+Hoạt động Kỹ thuật:
+Tracing: Kích hoạt Distributed Tracing with X-Ray and CloudWatch.3
+Service Map: Quan sát bản đồ dịch vụ để thấy luồng đi của request từ API Gateway -> Lambda -> DynamoDB. Phân tích độ trễ của từng phân đoạn (segment) để tối ưu hóa code.
+
+Ngày 14 (14/11): Phát triển với SAM (Serverless Application Model)
+
+Hoạt động Kỹ thuật:
+Serverless IaC: Sử dụng Deployment Automation with AWS SAM.3
+Local Test: Dùng sam local start-api để chạy thử API Gateway và Lambda ngay trên máy local (sử dụng Docker) trước khi deploy lên đám mây.
+
+Tuần 11: Hiện đại hóa Ứng dụng (15/11 – 21/11)
+
+Mục tiêu: Chuyển đổi ứng dụng Monolith sang Microservices và áp dụng văn hóa DevOps.
+
+Ngày 15 (15/11): Chiến lược Phân rã Monolith
+
+Hoạt động Kỹ thuật:
+Strangler Fig Pattern: Nghiên cứu chiến lược Monolith to Microservices Migration.3
+Thực hành: Xác định một module chức năng (ví dụ: Module Giỏ hàng) trong ứng dụng Java Spring Boot Monolith để tách ra thành Microservice riêng biệt.
+
+Ngày 16 (16/11): Xây dựng Microservice
+
+Hoạt động Kỹ thuật:
+Implementation: Thực hiện Create a Microservice.3 Viết lại module Giỏ hàng bằng Node.js chạy trên Lambda hoặc Fargate.
+Database Split: Tách dữ liệu của Giỏ hàng ra khỏi Database Monolith chung sang một bảng DynamoDB riêng, đảm bảo tính độc lập về dữ liệu (Database-per-service pattern).
+
+Ngày 17 (17/11): Giao tiếp Microservices
+
+Hoạt động Kỹ thuật:
+Messaging: Triển khai Microservices Messaging and Eventing.3 Thay vì gọi trực tiếp (HTTP REST) giữa các service (gây phụ thuộc chặt), chuyển sang giao tiếp bất đồng bộ qua EventBridge hoặc SNS.
+
+Ngày 18 (18/11): Tự động hóa Phát hành (CI/CD)
+
+Hoạt động Kỹ thuật:
+Release Pipeline: Xây dựng CI/CD for Application Release.3
+CodePipeline: Kết nối toàn bộ quy trình: Source -> Build -> Test -> Deploy.
+Approval: Thêm bước duyệt thủ công (Manual Approval) trước khi deploy lên môi trường Production.
+
+Ngày 19 (19/11): DevOps Nâng cao
+
+Hoạt động Kỹ thuật:
+DevOps Culture: Áp dụng DevOps with AWS CodePipeline.1
+Shift Left: Tích hợp kiểm tra bảo mật (SAST/DAST) vào giai đoạn Build. Nếu phát hiện lỗ hổng bảo mật, Pipeline sẽ tự động fail và chặn deploy.
+
+Ngày 20 (20/11): Elastic Beanstalk
+
+Hoạt động Kỹ thuật:
+PaaS: Tìm hiểu Elastic Beanstalk Workshop.3
+Deploy: Triển khai ứng dụng Node.js mà không cần cấu hình chi tiết EC2 hay Load Balancer. Beanstalk tự động lo liệu việc provisioning và scaling.
+So sánh: Đặt lên bàn cân: Beanstalk (dễ dùng, ít kiểm soát) vs. ECS/EKS (phức tạp, kiểm soát cao).
+
+Ngày 21 (21/11): WordPress Quy mô lớn
+
+Hoạt động Kỹ thuật:
+Architecture Review: Xây dựng WordPress on AWS 3 với kiến trúc tối ưu:
+Database: Aurora Serverless.
+File System: Amazon EFS để chia sẻ thư mục wp-content giữa các instance trong Auto Scaling Group.
+Cache: ElastiCache cho object caching.
+CDN: CloudFront để cache nội dung tĩnh.
+
+Tuần 12: Phân tích Dữ liệu và AI/ML (22/11 – 28/11)
+
+Mục tiêu: Xây dựng hồ dữ liệu (Data Lake) và ứng dụng trí tuệ nhân tạo (AI/ML).
+
+Ngày 22 (22/11): Kiến trúc Data Lake
+
+Hoạt động Kỹ thuật:
+S3 as Data Lake: Triển khai Data Lake Fundamentals 7 và Building a Data Lake with Your Own Data.7
+Partitioning: Tổ chức dữ liệu trong S3 theo cấu trúc year/month/day để tối ưu hóa hiệu năng và chi phí truy vấn.
+
+Ngày 23 (23/11): Phân tích Dữ liệu (Analytics)
+
+Hoạt động Kỹ thuật:
+Serverless Analytics: Khám phá Data Analytics Services Overview.7
+AWS Glue: Tạo Crawler để tự động phát hiện schema của dữ liệu CSV/JSON trong S3 và tạo bảng trong Data Catalog.
+Amazon Athena: Sử dụng SQL chuẩn để truy vấn dữ liệu trực tiếp từ S3 mà không cần load vào database.
+
+Ngày 24 (24/11): Trực quan hóa Dữ liệu (BI)
+
+Hoạt động Kỹ thuật:
+Dashboarding: Sử dụng Business Intelligence with Amazon QuickSight.7
+Connect: Kết nối QuickSight với Athena.
+Visualize: Tạo biểu đồ trực quan hóa doanh thu theo khu vực, nhúng dashboard vào ứng dụng web.
+
+Ngày 25 (25/11): Nhập môn SageMaker
+
+Hoạt động Kỹ thuật:
+ML Environment: Bắt đầu Get started with Amazon SageMaker.5
+Studio: Khởi tạo SageMaker Studio. Tải GitHub repo mẫu.
+Data Wrangler: Sử dụng Data Wrangler để import, phân tích và chuẩn hóa dữ liệu (Feature Engineering) thông qua giao diện kéo thả trực quan.5
+
+Ngày 26 (26/11): Huấn luyện Mô hình ML
+
+Hoạt động Kỹ thuật:
+Training: Thực hành Train/Tune/Deploy XGBoost.5
+Algorithm: Sử dụng thuật toán XGBoost có sẵn (built-in) của SageMaker.
+Tuning: Sử dụng Automatic Model Tuning (Hyperparameter Optimization) để tìm ra bộ tham số tốt nhất cho mô hình.
+
+Ngày 27 (27/11): Triển khai Mô hình ML
+
+Hoạt động Kỹ thuật:
+Inference: Deploy mô hình đã huấn luyện ra một Endpoint thời gian thực (Real-time Endpoint).5
+Test: Viết script Python để gửi dữ liệu mẫu tới Endpoint và nhận kết quả dự đoán (Inference).
+Clean up: Xóa Endpoint và Notebook Instance để tránh phát sinh chi phí lớn.5
+
+Ngày 28 (28/11): Dịch vụ AI Cao cấp
+
+Hoạt động Kỹ thuật:
+AI Services: Trải nghiệm AWS AI Services Integration.3
+Rekognition: Tích hợp tính năng nhận diện hình ảnh vào ứng dụng.
+Poly/Transcribe: Tích hợp chuyển đổi văn bản thành giọng nói và ngược lại. Sử dụng các API này giúp thêm tính năng thông minh vào ứng dụng mà không cần kiến thức sâu về ML.
+
+Tuần 13: Tổng kết và Dự án Capstone (29/11 – 30/11)
+
+Mục tiêu: Tổng hợp kiến thức, rà soát lại các mô hình kiến trúc phức tạp và hoàn thiện lộ trình.
+
+Ngày 29 (29/11): Rà soát Kiến trúc Tổng thể
+
+Hoạt động Kỹ thuật:
+Review: Xem lại toàn bộ các kiến trúc đã xây dựng: từ VPC cơ bản, EC2 Web App, đến Microservices trên EKS và Data Lake.
+Gap Analysis: Đối chiếu với AWS Well-Architected Framework. Tự đặt câu hỏi: "Kiến trúc tuần 3 đã tối ưu về chi phí chưa?", "Bảo mật tuần 6 có áp dụng được cho EKS tuần 9 không?".
+
+Ngày 30 (30/11): Kết thúc Hành trình
+
+Hoạt động Kỹ thuật:
+Documentation: Hoàn thiện tài liệu kỹ thuật (như báo cáo này) cho toàn bộ quá trình.
+Clean Up Final: Đảm bảo xóa bỏ tất cả tài nguyên thực hành (NAT Gateway, RDS, EKS Cluster, SageMaker Endpoint) để đưa chi phí về 0.
+Next Steps: Lên kế hoạch cho các chứng chỉ AWS (Solutions Architect Associate/Professional) dựa trên nền tảng kiến thức vững chắc đã xây dựng.
+
+Phụ Lục: Bảng Tổng Hợp Công Nghệ Chính
+
+Lĩnh vực
+Dịch vụ Cốt lõi
+Dịch vụ Nâng cao/Hiện đại
+Compute
+EC2, Lightsail
+Lambda, Fargate, ECS, EKS
+Storage
+S3, EBS, EFS
+S3 Glacier, Storage Gateway
+Database
+RDS, DynamoDB
+ElastiCache, Aurora Serverless
+Network
+VPC, Route 53
+CloudFront, Transit Gateway, VPC Peering
+Security
+IAM, Security Groups
+WAF, Shield, KMS, Secrets Manager, GuardDuty, Cognito
+Management
+CloudWatch, CloudTrail
+Systems Manager, CloudFormation, CDK, Config
+Data/AI
+Athena, Glue
+SageMaker, QuickSight, Rekognition
+
+Báo cáo này xác nhận rằng học viên đã hoàn thành một khối lượng công việc khổng lồ, chuyển đổi từ người mới bắt đầu thành một kỹ sư đám mây có năng lực thực chiến, sẵn sàng cho các dự án quy mô doanh nghiệp.
+Nguồn trích dẫn
+The First Cloud Journey - AWS Study Group, truy cập vào tháng 11 30, 2025, https://cloudjourney.awsstudygroup.com/
+Migrate to AWS :: The First Cloud Journey, truy cập vào tháng 11 30, 2025, https://cloudjourney.awsstudygroup.com/2-migrate/
+Modernize the application :: The First Cloud Journey, truy cập vào tháng 11 30, 2025, https://cloudjourney.awsstudygroup.com/4-modernize/
+Explore AWS Services :: The First Cloud Journey, truy cập vào tháng 11 30, 2025, https://cloudjourney.awsstudygroup.com/1-explore/
+AI/ML service on AWS :: The First Cloud Journey, truy cập vào tháng 11 30, 2025, https://cloudjourney.awsstudygroup.com/7-aimlservice/
+Container services :: The First Cloud Journey, truy cập vào tháng 11 30, 2025, https://cloudjourney.awsstudygroup.com/5-container/
+Data & Analytics :: The First Cloud Journey, truy cập vào tháng 11 30, 2025, https://cloudjourney.awsstudygroup.com/6-dataandanalytic/
+
