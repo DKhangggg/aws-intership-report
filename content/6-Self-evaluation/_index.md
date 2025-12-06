@@ -5,51 +5,62 @@ chapter: false
 pre: " <b> 6. </b> "
 ---
 
-During my internship at **AMAZON WEB SERVICES VIETNAM COMPANY LIMITED** from **09/08** to **[end date]**, I had the opportunity to learn, practice, and apply the knowledge acquired in school to a real-world working environment.  
-I participated in the **VoltGo - EV Station-based Rental System** project as a Frontend (FE) developer. This is a green mobility solution for smart cities, aiming to provide an "all-in-one" cloud-based platform that unifies searching, real-time booking, and payment, addressing the current service fragmentation.
+During my internship at **Amazon Web Services Vietnam** (08/09 - 28/11/2025), I worked as a Frontend Developer on the **VoltGo - EV Station-based Rental System**, a green mobility solution that provides an all-in-one cloud platform for searching, booking, and payment.
 
-Through my participation in project development, I have accumulated and significantly expanded my professional skill set, including:<br>
-- **Frontend and Application Development:** I have become proficient in building cross-platform mobile applications using React Native and developing Web Dashboard management interfaces with Next.js. Additionally, I have practical experience in deploying and hosting web interfaces through AWS Amplify.<br>
-- **Understanding of Cloud Architecture & Backend:** Although focused on Frontend, I have grasped the operational workflow of the Spring Boot Backend system and its integration with the comprehensive AWS ecosystem.<br>
-I have approached and clearly understood the role of core services in the project, including:<br>
-- **Compute & Containers:** Amazon ECS Fargate operates the backend and AWS Lambda for serverless processing.<br>
-- **Storage & Databases:** Amazon S3 (Data Lake), Amazon RDS PostgreSQL (relational storage), and Amazon ElastiCache for Redis (caching).<br>
-- **Connectivity & IoT:** AWS IoT Core (receiving sensor data), Amazon API Gateway (API management), and Amazon Cognito (secure user authentication).<br>
-- **Data Processing & Distribution:** AWS Glue (ETL and Crawlers) and Amazon CloudFront (global content delivery network).<br>
-- **Supporting Tools:** Using AWS CDK/SDK during infrastructure development and deployment.<br>
+### Key Skills Acquired
 
-In my work, I always uphold a sense of responsibility, strive to complete all assigned targets, and comply with organizational regulations. Additionally, I proactively collaborate closely with colleagues to ensure smooth workflow and optimal efficiency.
+**Frontend Development:**
 
-To objectively reflect on my internship process, I would like to evaluate myself based on the following criteria:
+- Built cross-platform mobile apps with React Native
+- Developed admin dashboards using Next.js
+- Deployed web interfaces via AWS Amplify
 
+**Cloud Architecture & Backend:**
 
-| No. | Criteria                            | Description                                                                                      | Good | Fair | Average |
-| --- | ----------------------------------- | ------------------------------------------------------------------------------------------------ | ---- | ---- | ------- |
-| 1   | **Professional knowledge & skills** | Understanding of the field, applying knowledge in practice, proficiency with tools, work quality | ☐    | ✅    | ☐       |
-| 2   | **Ability to learn**                | Ability to absorb new knowledge and learn quickly                                                | ☐    | ✅    | ☐       |
-| 3   | **Proactiveness**                   | Taking initiative, seeking out tasks without waiting for instructions                            | ✅    | ☐    | ☐       |
-| 4   | **Sense of responsibility**         | Completing tasks on time and ensuring quality                                                    | ✅    | ☐    | ☐       |
-| 5   | **Discipline**                      | Adhering to schedules, rules, and work processes                                                 | ☐    | ✅    | ☐       |
-| 6   | **Progressive mindset**             | Willingness to receive feedback and improve oneself                                              | ✅    | ☐    | ☐       |
-| 7   | **Communication**                   | Presenting ideas and reporting work clearly                                                      | ✅    | ☐    | ☐       |
-| 8   | **Teamwork**                        | Working effectively with colleagues and participating in teams                                   | ✅    | ☐    | ☐       |
-| 9   | **Professional conduct**            | Respecting colleagues, partners, and the work environment                                        | ✅    | ☐    | ☐       |
-| 10  | **Problem-solving skills**          | Identifying problems, proposing solutions, and showing creativity                                | ☐    | ✅    | ☐       |
-| 11  | **Contribution to project/team**    | Work effectiveness, innovative ideas, recognition from the team                                  | ✅    | ☐    | ☐       |
-| 12  | **Overall**                         | General evaluation of the entire internship period                                               | ✅    | ☐    | ☐       |
+- Understood Spring Boot backend workflow and AWS integration
+- Worked with core AWS services:
+  - **Compute:** ECS Fargate, Lambda
+  - **Storage:** S3, RDS PostgreSQL, ElastiCache Redis
+  - **IoT & API:** IoT Core, API Gateway, Cognito
+  - **Data & CDN:** AWS Glue, CloudFront
+  - **Infrastructure:** AWS CDK/SDK
 
-### Needs Improvement
+I maintained strong responsibility, met deadlines, and collaborated effectively with team members to ensure smooth workflows.
 
-Through my work experience at Amazon Web Services Vietnam, I recognize that I still have some limitations that need to be addressed:
+### Self-Evaluation
 
-* Regarding discipline:<br>
-Current situation: Sometimes I am not strict enough with myself in absolutely adhering to administrative procedures or schedules.<br>
-Plan: I will cultivate stricter time management habits and commit to strictly complying with company regulations as well as any organization I join in the future.
+<div style="overflow-x: auto;">
 
-* Regarding problem-solving thinking:<br>
-Current situation: When encountering complex technical issues in the project (e.g., real-time data processing or AWS integration), I sometimes feel confused and don't have an optimal solution immediately.<br>
-Plan: I will develop the habit of analyzing root causes and thoroughly studying technical documentation (AWS Well-Architected Framework) to propose more systematic solutions.
+| #   | Criteria                 | Description                                               | ⭐ Excellent | ✅ Good | 📝 Fair |
+| --- | ------------------------ | --------------------------------------------------------- | ------------ | ------- | ------- |
+| 1   | **Technical Skills**     | Domain knowledge, practical application, tool proficiency |              | ✅      |         |
+| 2   | **Learning Ability**     | Quick absorption of new knowledge                         |              | ✅      |         |
+| 3   | **Initiative**           | Proactive task-seeking without waiting for instructions   | ⭐           |         |         |
+| 4   | **Responsibility**       | On-time delivery with quality assurance                   | ⭐           |         |         |
+| 5   | **Discipline**           | Adherence to schedules and processes                      |              | ✅      |         |
+| 6   | **Growth Mindset**       | Openness to feedback and self-improvement                 | ⭐           |         |         |
+| 7   | **Communication**        | Clear presentation and reporting                          | ⭐           |         |         |
+| 8   | **Teamwork**             | Effective collaboration with colleagues                   | ⭐           |         |         |
+| 9   | **Professionalism**      | Respect for colleagues and work environment               | ⭐           |         |         |
+| 10  | **Problem Solving**      | Issue identification and creative solutions               |              | ✅      |         |
+| 11  | **Project Contribution** | Work effectiveness and innovative ideas                   | ⭐           |         |         |
+| 12  | **Overall Performance**  | General internship evaluation                             | ⭐           |         |         |
 
-* Regarding communication skills:<br>
-Current situation: Expressing technical ideas or daily progress reports is sometimes not concise enough.<br>
-Plan: I will learn to present issues more briefly and succinctly, and actively participate in group discussions to practice handling work situations.
+</div>
+
+### Areas for Improvement
+
+**1. Discipline & Time Management**
+
+- _Current:_ Occasionally inconsistent with administrative procedures
+- _Plan:_ Develop stricter time management habits and ensure full compliance with organizational rules
+
+**2. Problem-Solving Approach**
+
+- _Current:_ Sometimes struggle with complex technical issues (e.g., real-time data processing, AWS integration)
+- _Plan:_ Practice root cause analysis and study technical documentation (AWS Well-Architected Framework) for systematic solutions
+
+**3. Communication Efficiency**
+
+- _Current:_ Technical explanations and progress reports can be verbose
+- _Plan:_ Learn to present ideas concisely and participate actively in group discussions
