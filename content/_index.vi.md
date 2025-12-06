@@ -5,16 +5,18 @@ chapter: false
 ---
 
 # Báo cáo thực tập
+
 ### Thông tin sinh viên:
-&emsp; **Họ và tên:** Nguyễn Văn A
 
-&emsp; **Số điện thoại:** 0989888999
+&emsp; **Họ và tên:** Lê Duy Khang
 
-&emsp; **Email:** Anguyenvan@gmail.com
+&emsp; **Số điện thoại:** 0949057557
 
-&emsp; **Trường:** Đại học Sư phạm Kỹ thuật TP.HCM
+&emsp; **Email:** khangldse183186@fpt.edu.vn
 
-&emsp; **Ngành:** Công nghệ thông tin
+&emsp; **Trường:** Đại học FPT
+
+&emsp; **Ngành:** Kỹ thuật phần mềm
 
 &emsp; **Lớp:** AWS082025
 
@@ -22,11 +24,9 @@ chapter: false
 
 &emsp; **Vị trí thực tập:** FCJ Cloud Intern
 
-&emsp; **Thời gian thực tập:** Từ ngày 12/08/2025 đến ngày 12/11/2025
+&emsp; **Thời gian thực tập:** Từ ngày 08/09/2025 đến ngày 28/11/2025
 
-![Ảnh đại diện của bạn](/images/avatar.png)
-
-
+![Ảnh đại diện của bạn](/images/realava.jpg)
 
 ### Nội dung báo cáo
 
