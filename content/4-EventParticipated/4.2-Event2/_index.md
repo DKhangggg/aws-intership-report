@@ -1,122 +1,115 @@
 ---
 title: "Event 2"
-weight: 1
+weight: 2
 chapter: false
 pre: " <b> 4.2. </b> "
 ---
 
+# Workshop Harvest Report: "AWS Cloud Mastery Series #1: GENERATIVE AI, RAG & AWS AGENTIC AI"
 
-# Summary Report: “GenAI-powered App-DB Modernization workshop”
+## Event Objectives
 
-### Event Objectives
+- Master the art of Prompt Engineering to effectively control AI models
+- Explore the ecosystem of Pretrained AI Services available on AWS
+- Gain a deep understanding of building AI applications using RAG (Retrieval-Augmented Generation)
+- Update on the latest trends in Agentic AI and how to move AI Agents from prototype (POC) to production using Amazon Bedrock AgentCore
+- Explore the Pipecat Framework for building real-time voice-based virtual assistants
 
-- Share best practices in modern application design
-- Introduce Domain-Driven Design (DDD) and event-driven architecture
-- Provide guidance on selecting the right compute services
-- Present AI tools to support the development lifecycle
+## Speakers
 
-### Speakers
+- **Lam Tuan Kiet** - Sr. DevOps Engineer (FPT Software)
+- **Danh Hoang Hieu Nghi** - AI Engineer (Renova Cloud)
+- **Dinh Le Hoang Anh** - Cloud Engineer Trainee (First Cloud AI Journey)
 
-- **Jignesh Shah** – Director, Open Source Databases
-- **Erica Liu** – Sr. GTM Specialist, AppMod
-- **Fabrianne Effendi** – Assc. Specialist SA, Serverless Amazon Web Services
+## Key Highlights
 
-### Key Highlights
+### 1. Prompt Engineering & Foundation Models (The Core Foundation)
 
-#### Identifying the drawbacks of legacy application architecture
+Before diving into complex services, the event emphasized the importance of understanding and communicating with Foundation Models via Amazon Bedrock.
 
-- Long product release cycles → Lost revenue/missed opportunities  
-- Inefficient operations → Reduced productivity, higher costs  
-- Non-compliance with security regulations → Security breaches, loss of reputation  
+- **Zero-shot / Few-shot Prompting:** Techniques involving direct instructions or providing examples to guide the model's output format
+- **Chain of Thought (CoT):** A crucial technique requiring the model to "think step-by-step," significantly improving accuracy for complex logical problems
 
-#### Transitioning to modern application architecture – Microservices
+### 2. Pretrained AWS AI Services (Ready-to-Use APIs)
 
-Migrating to a modular system — each function is an **independent service** communicating via **events**, built on three core pillars:
+Introduction to "ready-to-use" APIs that integrate intelligent features without model training:
 
-- **Queue Management**: Handle asynchronous tasks  
-- **Caching Strategy**: Optimize performance  
-- **Message Handling**: Flexible inter-service communication  
+- **Image/Video:** Amazon Rekognition
+- **Language:** Amazon Translate, Comprehend, Textract (OCR)
+- **Audio:** Amazon Polly (Text-to-Speech), Transcribe (Speech-to-Text)
 
-#### Domain-Driven Design (DDD)
+### 3. RAG - Retrieval Augmented Generation
 
-- **Four-step method**: Identify domain events → arrange timeline → identify actors → define bounded contexts  
-- **Bookstore case study**: Demonstrates real-world DDD application  
-- **Context mapping**: 7 patterns for integrating bounded contexts  
+A process helping AI answer based on enterprise data, reducing hallucinations:
 
-#### Event-Driven Architecture
+- **Embeddings:** Using Amazon Titan Text Embeddings V2 to vectorise text for semantic search
+- **Knowledge Bases for Amazon Bedrock:** Fully managed process handling Chunking → Vector Store → Retrieval → Generation
 
-- **3 integration patterns**: Publish/Subscribe, Point-to-point, Streaming  
-- **Benefits**: Loose coupling, scalability, resilience  
-- **Sync vs async comparison**: Understanding the trade-offs  
+### 4. The Evolution to Agentic AI
 
-#### Compute Evolution
+The event introduced the next evolution of GenAI:
 
-- **Shared Responsibility Model**: EC2 → ECS → Fargate → Lambda  
-- **Serverless benefits**: No server management, auto-scaling, pay-for-value  
-- **Functions vs Containers**: Criteria for appropriate choice  
+- **GenAI Assistants:** Follow rules, automate repetitive tasks
+- **GenAI Agents:** Goal-oriented, handling a broader range of tasks
+- **Agentic AI Systems:** Multi-agent systems acting fully autonomously with minimal human oversight
 
-#### Amazon Q Developer
+**The "Prototype to Production Chasm":** Moving Agents from POC to Production faces major hurdles regarding:
 
-- **SDLC automation**: From planning to maintenance  
-- **Code transformation**: Java upgrade, .NET modernization  
-- **AWS Transform agents**: VMware, Mainframe, .NET migration  
+- Performance & Scalability
+- Security & Governance
+- Complexity: Difficulties in managing Memory, access controls, and auditing Agent interactions
 
-### Key Takeaways
+### 5. Amazon Bedrock AgentCore: Bridging the Gap
 
-#### Design Mindset
+To solve these challenges, AWS introduced AgentCore - a comprehensive platform for building and operating Agents:
 
-- **Business-first approach**: Always start from the business domain, not the technology  
-- **Ubiquitous language**: Importance of a shared vocabulary between business and tech teams  
-- **Bounded contexts**: Identifying and managing complexity in large systems  
+**Key Components:**
 
-#### Technical Architecture
+- **Runtime & Memory:** Execution environment and the ability to "remember" interaction history/learning
+- **Identity & Gateway:** Identity management and secure connection gateways
+- **Code Interpreter:** Allows Agents to write and execute code to process complex data
+- **Observability:** Tools to monitor and audit agent activities
 
-- **Event storming technique**: Practical method for modeling business processes  
-- Use **event-driven communication** instead of synchronous calls  
-- **Integration patterns**: When to use sync, async, pub/sub, streaming  
-- **Compute spectrum**: Criteria for choosing between VM, containers, and serverless  
+**Benefit:** Allows developers to focus on business logic rather than infrastructure security or context management.
 
-#### Modernization Strategy
+### 6. Pipecat: Framework for Real-time Voice AI
 
-- **Phased approach**: No rushing — follow a clear roadmap  
-- **7Rs framework**: Multiple modernization paths depending on the application  
-- **ROI measurement**: Cost reduction + business agility  
+An interesting Open Source framework introduced for building Multimodal Virtual Assistants:
 
-### Applying to Work
+- **Focus:** Optimized for Real-time interactions and conversational streaming
 
-- **Apply DDD** to current projects: Event storming sessions with business teams  
-- **Refactor microservices**: Use bounded contexts to define service boundaries  
-- **Implement event-driven patterns**: Replace some sync calls with async messaging  
-- **Adopt serverless**: Pilot AWS Lambda for suitable use cases  
-- **Try Amazon Q Developer**: Integrate into the dev workflow to boost productivity  
+**Pipeline Mechanism:**
 
-### Event Experience
+1. **WebRTC Input:** Receives audio signals from the user
+2. **STT (Speech-to-Text):** Converts voice to text
+3. **LLM Processing:** Processes natural language to generate a response
+4. **TTS (Text-to-Speech):** Converts text back to voice
+5. **Output:** Streams audio back to the user with ultra-low latency
 
-Attending the **“GenAI-powered App-DB Modernization”** workshop was extremely valuable, giving me a comprehensive view of modernizing applications and databases using advanced methods and tools. Key experiences included:
+## Event Experience & Reflection
 
-#### Learning from highly skilled speakers
-- Experts from AWS and major tech organizations shared **best practices** in modern application design.  
-- Through real-world case studies, I gained a deeper understanding of applying **DDD** and **Event-Driven Architecture** to large projects.  
+Participating in this workshop expanded my perspective from basic concepts to the cutting-edge technologies shaping the future of AI.
 
-#### Hands-on technical exposure
-- Participating in **event storming** sessions helped me visualize how to **model business processes** into domain events.  
-- Learned how to **split microservices** and define **bounded contexts** to manage large-system complexity.  
-- Understood trade-offs between **synchronous and asynchronous communication** and integration patterns like **pub/sub, point-to-point, streaming**.  
+### 1. The Shift from "Q&A" to "Action" (Agentic AI)
 
-#### Leveraging modern tools
-- Explored **Amazon Q Developer**, an AI tool for SDLC support from planning to maintenance.  
-- Learned to **automate code transformation** and pilot serverless with **AWS Lambda** to improve productivity.  
+The most impressive concept for me was Agentic AI. Previously, I viewed AI primarily for chatting or summarization. However, through the AgentCore presentation, I see a future of "virtual employees" capable of planning, using tools (like web browsers or code interpreters), and solving complex workflows without constant human hand-holding.
 
-#### Networking and discussions
-- The workshop offered opportunities to exchange ideas with experts, peers, and business teams, enhancing the **ubiquitous language** between business and tech.  
-- Real-world examples reinforced the importance of the **business-first approach** rather than focusing solely on technology.  
+### 2. Solving the "Production" Puzzle
 
-#### Lessons learned
-- Applying DDD and event-driven patterns reduces **coupling** while improving **scalability** and **resilience**.  
-- Modernization requires a **phased approach** with **ROI measurement**; rushing the process can be risky.  
-- AI tools like Amazon Q Developer can significantly **boost productivity** when integrated into the current workflow.  
+I resonated deeply with the discussion on the "Chasm" between POC and Production. Tools like Amazon Bedrock AgentCore are essentially the key to building enterprise trust. They provide the necessary security layers (Identity) and control mechanisms (Observability) that allow businesses to confidently delegate tasks to AI.
 
-#### Some event photos
-*Add your event photos here*  
+### 3. The Potential of Voice AI with Pipecat
 
-> Overall, the event not only provided technical knowledge but also helped me reshape my thinking about application design, system modernization, and cross-team collaboration.
+The Pipecat demo was fascinating. Combining WebRTC with AI models to create fluid, low-latency conversations opens up endless practical applications, such as intelligent virtual call centers, AI interview assistants, or real-time language tutors.
+
+## Conclusion
+
+The "Generative AI & Agentic AI on AWS" workshop provided a valuable panoramic view:
+
+- **Present:** We rely on RAG and Prompt Engineering to work effectively with data
+- **Future:** We are entering the era of Agentic AI, where Autonomous Agents will transform business operations
+- **Tools:** With the AWS ecosystem (Bedrock, AgentCore) and Frameworks (Pipecat, LangChain), technical barriers are being removed, empowering engineers to turn breakthrough ideas into reality
+
+## Some photos from the event
+
+*(Photos to be added)*
