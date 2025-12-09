@@ -35,7 +35,7 @@ Designed under the AWS Well-Architected Framework, the system minimizes operatio
 
 ### 3. Solution Architecture
 
-![Voltgo Platform Architecture](../attachments/2-Proposal-architecture.png)
+![Volgo Solution Architecture](/images/2-Proposal/voltgo_architecture.png)
 
 ### AWS Services Used
 

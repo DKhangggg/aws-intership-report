@@ -35,7 +35,7 @@ Thiết kế theo AWS Well-Architected Framework giúp tối ưu chi phí vận 
 
 ### 3. Kiến trúc giải pháp
 
-![Kiến trúc nền tảng Voltgo](../attachments/2-Proposal-architecture.png)
+![Kiến trúc giải pháp Volgo](/images/2-Proposal/voltgo_architecture.png)
 
 ### Dịch vụ AWS sử dụng
 
@@ -70,14 +70,14 @@ Thiết kế theo AWS Well-Architected Framework giúp tối ưu chi phí vận 
 **Các giai đoạn triển khai**
 Dự án này có hai phần chính—phát triển backend cục bộ và triển khai lên đám mây AWS—mỗi phần theo bốn giai đoạn chính:
 
-- 1.  Xây dựng và thiết kế kiến trúc:
-      Phát triển và kiểm tra các dịch vụ backend cục bộ bằng Docker Compose, PostgreSQL và Redis. Thiết kế kiến trúc AWS serverless bao gồm ECS Fargate, Aurora Serverless, ElastiCache và API Gateway với kết nối PrivateLink. (Giai đoạn trước triển khai)
-- 2.  Ước tính chi phí và xác thực tính khả thi:
-      Sử dụng AWS Pricing Calculator để ước tính chi phí hàng tháng của các tác vụ ECS, đơn vị dung lượng Aurora và băng thông CloudFront. Điều chỉnh quyết định thiết kế để đảm bảo hiệu quả chi phí và di chuyển suôn sẻ.
-- 3.  Cấu hình và triển khai hạ tầng:
-      Xây dựng và triển khai hạ tầng đám mây bằng Terraform cho IaC. Cấu hình VPC, ECS, Aurora, ElastiCache, Cognito và CloudFront. Xác thực vai trò IAM, mạng và truy cập chỉ riêng tư qua VPC Endpoints.
-- 4.  Kiểm tra, tối ưu hóa và phát hành:
-      Triển khai các dịch vụ Docker hóa lên ECS Fargate, kiểm tra luồng API Gateway → PrivateLink → NLB → ECS và xác minh kết nối cơ sở dữ liệu. Kích hoạt giám sát CloudWatch, tự động mở rộng và bảo vệ WAF. Tối ưu hóa ngưỡng mở rộng và tài liệu kiến trúc cuối cùng.
+- 1. Xây dựng và thiết kế kiến trúc:
+     Phát triển và kiểm tra các dịch vụ backend cục bộ bằng Docker Compose, PostgreSQL và Redis. Thiết kế kiến trúc AWS serverless bao gồm ECS Fargate, Aurora Serverless, ElastiCache và API Gateway với kết nối PrivateLink. (Giai đoạn trước triển khai)
+- 2. Ước tính chi phí và xác thực tính khả thi:
+     Sử dụng AWS Pricing Calculator để ước tính chi phí hàng tháng của các tác vụ ECS, đơn vị dung lượng Aurora và băng thông CloudFront. Điều chỉnh quyết định thiết kế để đảm bảo hiệu quả chi phí và di chuyển suôn sẻ.
+- 3. Cấu hình và triển khai hạ tầng:
+     Xây dựng và triển khai hạ tầng đám mây bằng Terraform cho IaC. Cấu hình VPC, ECS, Aurora, ElastiCache, Cognito và CloudFront. Xác thực vai trò IAM, mạng và truy cập chỉ riêng tư qua VPC Endpoints.
+- 4. Kiểm tra, tối ưu hóa và phát hành:
+     Triển khai các dịch vụ Docker hóa lên ECS Fargate, kiểm tra luồng API Gateway → PrivateLink → NLB → ECS và xác minh kết nối cơ sở dữ liệu. Kích hoạt giám sát CloudWatch, tự động mở rộng và bảo vệ WAF. Tối ưu hóa ngưỡng mở rộng và tài liệu kiến trúc cuối cùng.
 
 **Yêu cầu kỹ thuật**
 
