@@ -31,20 +31,20 @@ I maintained strong responsibility, met deadlines, and collaborated effectively 
 
 <div style="overflow-x: auto;">
 
-| #   | Criteria                 | Description                                               | ⭐ Excellent | ✅ Good | 📝 Fair |
-| --- | ------------------------ | --------------------------------------------------------- | ------------ | ------- | ------- |
-| 1   | **Technical Skills**     | Domain knowledge, practical application, tool proficiency |              | ✅      |         |
-| 2   | **Learning Ability**     | Quick absorption of new knowledge                         |              | ✅      |         |
-| 3   | **Initiative**           | Proactive task-seeking without waiting for instructions   | ⭐           |         |         |
-| 4   | **Responsibility**       | On-time delivery with quality assurance                   | ⭐           |         |         |
-| 5   | **Discipline**           | Adherence to schedules and processes                      |              | ✅      |         |
-| 6   | **Growth Mindset**       | Openness to feedback and self-improvement                 | ⭐           |         |         |
-| 7   | **Communication**        | Clear presentation and reporting                          | ⭐           |         |         |
-| 8   | **Teamwork**             | Effective collaboration with colleagues                   | ⭐           |         |         |
-| 9   | **Professionalism**      | Respect for colleagues and work environment               | ⭐           |         |         |
-| 10  | **Problem Solving**      | Issue identification and creative solutions               |              | ✅      |         |
-| 11  | **Project Contribution** | Work effectiveness and innovative ideas                   | ⭐           |         |         |
-| 12  | **Overall Performance**  | General internship evaluation                             | ⭐           |         |         |
+| #   | Criteria                 | Description                                               | Excellent | Good | Fair |
+| --- | ------------------------ | --------------------------------------------------------- | --------- | ---- | ---- |
+| 1   | **Technical Skills**     | Domain knowledge, practical application, tool proficiency |           | ✅   |      |
+| 2   | **Learning Ability**     | Quick absorption of new knowledge                         |           | ✅   |      |
+| 3   | **Initiative**           | Proactive task-seeking without waiting for instructions   | ✅        |      |      |
+| 4   | **Responsibility**       | On-time delivery with quality assurance                   | ✅        |      |      |
+| 5   | **Discipline**           | Adherence to schedules and processes                      |           | ✅   |      |
+| 6   | **Growth Mindset**       | Openness to feedback and self-improvement                 | ✅        |      |      |
+| 7   | **Communication**        | Clear presentation and reporting                          | ✅        |      |      |
+| 8   | **Teamwork**             | Effective collaboration with colleagues                   | ✅        |      |      |
+| 9   | **Professionalism**      | Respect for colleagues and work environment               | ✅        |      |      |
+| 10  | **Problem Solving**      | Issue identification and creative solutions               |           | ✅   |      |
+| 11  | **Project Contribution** | Work effectiveness and innovative ideas                   | ✅        |      |      |
+| 12  | **Overall Performance**  | General internship evaluation                             | ✅        |      |      |
 
 </div>
 
