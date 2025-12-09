@@ -5,25 +5,25 @@ chapter: false
 pre: " <b> 2. </b> "
 ---
 
-# The Volt Go
+# The EV Station-based Rental System
 
 ## Electric Vehicle Rental and Return Software at Fixed Stations – A Green Mobility Solution for Smart Cities
 
 ### 1. Executive Summary
 
-The Volt Go is developed to provide an all-in-one platform for electric vehicle rental and charging management. It integrates real-time rental, payment, and charging station access through a unified cloud-native solution. The system features a React Native mobile app and a Spring Boot backend deployed on AWS ECS Fargate, with PostgreSQL (RDS) and Redis (ElastiCache) for data and caching. User authentication is managed via Amazon Cognito, and global delivery is optimized using CloudFront. Designed under the AWS Well-Architected Framework, the platform ensures scalability, high availability, and security while maintaining cost efficiency.
+The EV Station-based Rental System is developed to provide an all-in-one platform for electric vehicle rental and charging management. It integrates real-time rental, payment, and charging station access through a unified cloud-native solution. The system features a React Native mobile app and a Spring Boot backend deployed on AWS ECS Fargate, with PostgreSQL (RDS) and Redis (ElastiCache) for data and caching. User authentication is managed via Amazon Cognito, and global delivery is optimized using CloudFront. Designed under the AWS Well-Architected Framework, the platform ensures scalability, high availability, and security while maintaining cost efficiency.
 
 ### 2. Problem Statement
 
-### What’s the Problem?
+### What's the Problem?
 
-Current electric vehicle (EV) rental services are fragmented, requiring users to switch between multiple apps to locate, book, and manage rentals at fixed points. This creates inconvenience, slow performance, and unreliable experiences — users often arrive at “unavailable” or “offline” rental points, leading to frustration and loss of trust.
+Current electric vehicle (EV) rental services are fragmented, requiring users to switch between multiple apps to locate, book, and manage rentals at fixed points. This creates inconvenience, slow performance, and unreliable experiences — users often arrive at "unavailable" or "offline" rental points, leading to frustration and loss of trust.
 
 For vehicle owners and operators, manual fleet management, booking coordination, and maintenance tracking result in operational inefficiencies and lost revenue. Currently, there is no unified, real-time platform connecting renters, vehicle owners, and rental point operators.
 
 ### The Solution
 
-The Volt Go consolidates EV rental and return at fixed points into a single, cloud-native platform. Built with React Native for mobile and Spring Boot for backend, the system delivers real-time booking, vehicle tracking, and payment integration.
+The EV Station-based Rental System consolidates EV rental and return at fixed points into a single, cloud-native platform. Built with React Native for mobile and Spring Boot for backend, the system delivers real-time booking, vehicle tracking, and payment integration.
 
 Key AWS services include ECS Fargate for compute, RDS PostgreSQL for data storage, ElastiCache for low-latency performance, API Gateway and Cognito for secure access, and CloudFront for global content delivery. The platform supports both fleet-based and peer-to-peer (P2P) vehicle registration, providing a centralized interface for users and operators to manage rentals efficiently, securely, and at scale.
 
@@ -31,34 +31,35 @@ Key AWS services include ECS Fargate for compute, RDS PostgreSQL for data storag
 
 The platform eliminates manual coordination and fragmented applications, offering a unified, automated experience for renters and fleet owners. Real-time data ensures reliability and transparency regarding vehicle availability and rental point status.
 
-Designed under the AWS Well-Architected Framework, the system minimizes operational costs with a serverless, pay-per-use model while maintaining scalability and 99.99% uptime. Within 12–24 months, the platform is projected to reach 50,000+ monthly active users, onboard 200+ rental points, and deliver significant time, cost, and operational efficiencies for both users and operators.
+Designed under the AWS Well-Architected Framework, the system minimizes operational costs with a serverless, pay-per-use model while maintaining scalability and 99.99% uptime. Within 1 months, the platform is projected to reach 1,000+ monthly active users, onboard 200+ rental points, and deliver significant time, cost, and operational efficiencies for both users and operators.
 
 ### 3. Solution Architecture
 
-The VoltGo platform adopts a serverless and fully private AWS architecture for secure and scalable backend operations. Backend run on Amazon ECS Fargate, connecting to Aurora PostgreSQL Serverless v2 for relational data and ElastiCache Serverless (Redis) for caching.
-All workloads are deployed in private subnets across multiple Availability Zones and accessed securely through API Gateway via AWS PrivateLink to an internal Network Load Balancer. User authentication is managed by Amazon Cognito, while the frontend is hosted on Amazon S3 and delivered globally via CloudFront, protected by AWS WAF and ACM SSL/TLS.
-Monitoring and secrets management are handled by CloudWatch and Secrets Manager, with the entire infrastructure provisioned through Terraform IaC. This architecture ensures high security, elasticity, and cost efficiency suitable for the current development stage and future production scaling.
-
-![EV Rental System Architecture](/images/2-Proposal/Evrental_Facj_Final.drawio.png)
+![Voltgo Platform Architecture](../attachments/2-Proposal-architecture.png)
 
 ### AWS Services Used
 
 - **Amazon ECS Fargate**: Serverless container orchestration for backend microservices.
-- **Amazon Aurora PostgreSQL Serverless v2**: Scalable, multi-AZ relational database.
-- **Amazon ElastiCache Serverless (Redis)**: In-memory caching for low-latency data access.
+- **Amazon PostgreSQL**: Relational database.
+- **Amazon ElastiCache Serverless (Valkey)**: In-memory caching for low-latency data access.
 - **Amazon API Gateway**: Secure REST API entry point integrated via PrivateLink.
 - **Amazon Cognito**: User authentication and authorization with JWT and MFA.
 - **Amazon CloudFront + S3**: Global content delivery and static hosting with WAF protection.
-- **AWS Secrets Manager**: Centralized secret storage and automatic rotation.
 - **Amazon CloudWatch**: Unified monitoring, logging, and alerting for all services.
-- **AWS WAF + ACM**: Edge-level security and SSL/TLS certificate management.
+- **Amazon ACM**: Edge-level security and SSL/TLS certificate management.
+- **Amazon Application Load Balancer**: Route traffic forward to target group
+- **Amazon Location Service**: Providing map and places (index) for frontend allow user search and check station nearly.
+- **Amazon Bedrock**: Handling chatting support user for QA and find nearby station base on user's location
+- **Amazon EC2**: Bastion Server connect RDS to config extension and running script
+- **Amazon Lambda**: Bridge connect with Bedrock to handle api in QA from user
+- **Amazon ECR**: Repository store image for ecs task
 
 ### Component Design
 
-- **Frontend**:React/Vue.js web application hosted on Amazon S3 and delivered via CloudFront, secured with AWS WAF and ACM SSL/TLS certificates.
-- **API Layer**: Amazon API Gateway provides the public API endpoint, connecting privately to backend services through AWS PrivateLink to an internal Network Load Balancer.
-- **Compute Layer**: Amazon ECS Fargate runs containerized microservices across multiple Availability Zones, scaling automatically based on CPU and memory utilization.
-- **Database Layer**:Amazon Aurora PostgreSQL Serverless v2 stores relational data with a writer and read replica for high availability and automated scaling.
+- **Frontend**:React web application hosted on Amazon S3 and delivered via CloudFront, secured ACM SSL/TLS certificates.
+- **API Layer**: Amazon API Gateway provides the public API endpoint.
+- **Compute Layer**: Amazon ECS Fargate runs containerized across multiple Availability Zones, scaling automatically based on CPU and memory utilization.
+- **Database Layer**:Amazon PostgreSQL stores relational data for high availability and automated scaling.
 - **Caching Layer**: Amazon ElastiCache Serverless (Redis) caches session and booking data to reduce database load and improve response time.
 - **Authentication**: Amazon Cognito handles user registration, login, and JWT-based authorization with optional MFA support.
 - **Storage**: Amazon S3 manages static assets and user uploads, accessible only through CloudFront via Origin Access Control (OAC).
@@ -101,7 +102,7 @@ This project has two main parts—developing the backend locally and deploying i
   - Week 1: Finalize MVP scope (P0 User Stories), define user flows, and approve the AWS architecture.
   - Week 2: FE Lead finalizes UI/UX mockups. Backend provisions core AWS (VPC, S3, ECR, Aurora).
 - Phase 2: Core MVP Development (Weeks 3-8)
-  - Weeks 3-4: Backend builds User Auth (Cognito) & core APIs (API Gateway, ECS).
+- Weeks 3-4: Backend builds User Auth (Cognito) & core APIs (API Gateway, ECS).
   - Weeks 5-6: All teams (FE/BE/Mobile) build core screens (Login, Search, Details) and the Booking Engine APIs.
   - Weeks 7-8: Integration of KYC flow (Lambda, Textract, Rekognition) and Payment Gateway integration.
 - Phase 3: Testing & UAT (Weeks 9-10)
