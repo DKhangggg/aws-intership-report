@@ -7,6 +7,8 @@ pre: " <b> 2. </b> "
 
 # The EV Station-based Rental System
 
+**[📄 Full Project Documentation](https://docs.google.com/document/d/1VeR7Leu9Yq4LMlgPcfKtcE0IfO-K-DO4fgaWR8af7t0/edit?tab=t.0)**
+
 ## Electric Vehicle Rental and Return Software at Fixed Stations – A Green Mobility Solution for Smart Cities
 
 ### 1. Executive Summary

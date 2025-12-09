@@ -7,6 +7,8 @@ pre: " <b> 2. </b> "
 
 # Hệ thống cho thuê xe điện tại điểm cố định
 
+**[📄 Tài liệu dự án đầy đủ](https://docs.google.com/document/d/1VeR7Leu9Yq4LMlgPcfKtcE0IfO-K-DO4fgaWR8af7t0/edit?tab=t.0)**
+
 ## Phần mềm cho thuê và trả xe điện tại các điểm cố định – Giải pháp di chuyển xanh cho đô thị thông minh
 
 ### 1. Tóm tắt điều hành
