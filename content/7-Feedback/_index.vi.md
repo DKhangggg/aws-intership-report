@@ -38,8 +38,10 @@ Các quyền lợi về hỗ trợ dấu mộc thực tập rất rõ ràng. Đi
 
 
 ### Đề xuất & mong muốn
-- Bạn có đề xuất gì để cải thiện trải nghiệm trong kỳ thực tập?<br>
   Tôi đề xuất chương trình có thể thiết lập các mốc "Check-point" về kỷ luật và thái độ định kỳ 2 tuần/lần (thay vì chỉ đánh giá chuyên môn). Việc nhận feedback sớm về tác phong sẽ giúp thực tập sinh điều chỉnh hành vi kịp thời, tránh mắc sai sót về quy trình vào cuối kỳ.  
-- Bạn có muốn tiếp tục chương trình này trong tương lai?<br>
   Tôi rất mong muốn có cơ hội tiếp tục đồng hành cùng FCJ hoặc AWS ở các vị trí cao hơn (như Fresher hoặc Junior) sau khi đã khắc phục được các điểm yếu hiện tại của bản thân.
-- Góp ý khác (tự do chia sẻ):<br>**Cảm ơn FCJ đã cho tôi một hành trình đáng nhớ. Dù bản thân tôi còn nhiều thiếu sót cần hoàn thiện, nhưng sự kiên nhẫn của Mentor và Team đã là động lực lớn nhất để tôi cố gắng đến cùng.**
+**Hành trình FCJ của em đã về đích, và người em muốn cảm ơn nhất chính là các anh Admin và Mentor: anh Gia Hưng, anh Hoàng Kha, anh Hoàn Thiện, anh Tuấn Thịnh, anh Vũ Hoàng và anh Thanh Hiệp.**
+
+Cảm ơn các anh đã luôn kiên nhẫn support và "gõ đầu" em vào nề nếp. Chính cách làm việc quy củ, sự sắp xếp lịch trình rõ ràng và những lời nhắc nhở nghiêm khắc nhưng đầy tình cảm của các anh đã giúp em thay đổi tư duy rất nhiều. Nhờ vậy mà em đã biết cách tổ chức công việc và thích nghi được với phong cách làm việc chuyên nghiệp ("work like a pro").
+
+Chúc các anh thật nhiều sức khỏe để tiếp tục dìu dắt các thế hệ sau của FCJ ạ!

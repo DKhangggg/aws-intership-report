@@ -43,3 +43,9 @@ The rights regarding internship certification support are very clear. The bigges
 - Would you like to continue this program in the future?<br>
   I very much hope to have the opportunity to continue working with FCJ or AWS in higher positions (such as Fresher or Junior) after overcoming my current weaknesses.
 - Any other comments (free sharing):<br>**Thank you FCJ for giving me a memorable journey. Although I still have many shortcomings to improve, the patience of my Mentor and Team has been the greatest motivation for me to persevere to the end.**
+
+My FCJ journey has come to an end, and the people I want to thank most are the Admins and Mentors: Gia Hưng, Hoàng Kha, Hoàn Thiện, Tuấn Thịnh, Vũ Hoàng, and Thanh Hiệp.
+
+Thank you for always patiently supporting me and "knocking some sense" into me to keep me disciplined. Your organized working style, clear scheduling, and strict yet caring reminders have helped change my mindset greatly. Because of that, I have learned how to organize my work and adapt to a professional way of working—"work like a pro".
+
+Wishing you all good health so you can continue guiding the next generations of FCJ!
